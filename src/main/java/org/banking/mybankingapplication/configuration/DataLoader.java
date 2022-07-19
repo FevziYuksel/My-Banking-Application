@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -17,7 +19,8 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         //Add exception ??
-        //if (!customerRepository.findAll().isEmpty()) return;
+        if (!customerRepository.findAll().isEmpty())
+            return;
 
         Customer customer1 = Customer.builder().customerName("Fevzi Yüksel").address("Istanbul")
                 .email("fevzi@hotmail.com").phoneNo("53125134612").build();
