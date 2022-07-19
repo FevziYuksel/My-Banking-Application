@@ -19,8 +19,11 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         //Add exception ??
-        if (!customerRepository.findAll().isEmpty())
+        if (!customerRepository.findAll().isEmpty()){
+            System.out.println("Girdi");
             return;
+        }
+
 
         Customer customer1 = Customer.builder().customerName("Fevzi Yüksel").address("Istanbul")
                 .email("fevzi@hotmail.com").phoneNo("53125134612").build();
