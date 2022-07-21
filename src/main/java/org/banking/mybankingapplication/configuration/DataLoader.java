@@ -24,10 +24,15 @@ public class DataLoader implements CommandLineRunner {
             return;
         }
 
+        Customer fevzi = new Customer(
+                "Fevzi",
+                "Yüksel",
+                "123",
+                "fevzi_fe@hotmail.com",
+                "+905312513462",
+                "Istanbul"
+        );
 
-        Customer customer1 = Customer.builder().customerName("Fevzi Yüksel").address("Istanbul")
-                .email("fevzi@hotmail.com").phoneNo("53125134612").build();
-
-        customerRepository.save(customer1);
+        customerRepository.save(fevzi);
     }
 }

@@ -1,9 +1,6 @@
 package org.banking.mybankingapplication.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -11,32 +8,23 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-@Data
-@Builder
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
+
 
 @Entity
 @Table(name = "customer")
 
-public class Customer implements Serializable {
-
-    /*
-    @Id
-    @Column(name = "customer_id") //columb cannot be named
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //cannot generate unique id
-    private long id;
-
-     */
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "uuid2")
-    private String id;
 
 
-    private String customerName;
+public class Customer extends ExtendBase {
 
-    //private String password;
+    private String surname;
+
+    private String password;
 
     private String email;
 
@@ -44,11 +32,29 @@ public class Customer implements Serializable {
 
     private String address;
 
-    //private List<Card> constumerCards;
+
+    //private List<Card> customerCards;
 
     //private List<Account> costumerAccounts;
 
     //private List<Role> costumerRoles;
 
+
+    public Customer(String id, String name, String surname, String password, String email, String phoneNo, String address) {
+        super(id, name);
+        this.surname = surname;
+        this.password = password;
+        this.email = email;
+        this.phoneNo = phoneNo;
+        this.address = address;
+    }
+    public Customer(String name, String surname, String password, String email, String phoneNo, String address) {
+        super(name);
+        this.surname = surname;
+        this.password = password;
+        this.email = email;
+        this.phoneNo = phoneNo;
+        this.address = address;
+    }
 
 }
