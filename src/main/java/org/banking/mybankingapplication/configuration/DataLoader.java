@@ -1,6 +1,9 @@
 package org.banking.mybankingapplication.configuration;
 
+import org.banking.mybankingapplication.model.entity.Account;
 import org.banking.mybankingapplication.model.entity.Customer;
+import org.banking.mybankingapplication.model.enums.Currency;
+import org.banking.mybankingapplication.repository.AccountRepository;
 import org.banking.mybankingapplication.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,14 +18,20 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
+
     @Override
     public void run(String... args) throws Exception {
 
         //Add exception ??
+        /*
         if (!customerRepository.findAll().isEmpty()){
-            System.out.println("Girdi");
             return;
         }
+
+         */
 
         Customer fevzi = new Customer(
                 "Fevzi",
@@ -34,5 +43,17 @@ public class DataLoader implements CommandLineRunner {
         );
 
         customerRepository.save(fevzi);
+
+
+        System.out.println("1");
+
+        Account fevziAccount = new Account(
+                "fevzi",
+                Currency.TURKISH_LIRA
+        );
+        accountRepository.save(fevziAccount);
+
+        System.out.println("2");
+
     }
 }

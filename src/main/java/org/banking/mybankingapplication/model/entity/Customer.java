@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -33,9 +34,16 @@ public class Customer extends ExtendBase {
     private String address;
 
 
-    //private List<Card> customerCards;
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "customer_id",
+            //referencedColumnName = "account_id",
+            unique = true,
+            nullable = false
+    )
+    private Set<Account> costumerAccounts;
 
-    //private List<Account> costumerAccounts;
+    //private List<Card> customerCards;
 
     //private List<Role> costumerRoles;
 
