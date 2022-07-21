@@ -26,12 +26,10 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         //Add exception ??
-        /*
         if (!customerRepository.findAll().isEmpty()){
             return;
         }
 
-         */
 
         Customer fevzi = new Customer(
                 "Fevzi",
@@ -45,6 +43,7 @@ public class DataLoader implements CommandLineRunner {
         customerRepository.save(fevzi);
 
 
+        /*
         System.out.println("1");
 
         Account fevziAccount = new Account(
@@ -54,6 +53,8 @@ public class DataLoader implements CommandLineRunner {
         accountRepository.save(fevziAccount);
 
         System.out.println("2");
+
+         */
 
     }
 }
