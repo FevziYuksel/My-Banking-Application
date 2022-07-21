@@ -7,6 +7,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Inheritance;
 import javax.persistence.MappedSuperclass;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -20,8 +21,17 @@ public abstract class ExtendBase extends Base{
 
     private String name;
 
+    private LocalDate registerDate;
+
     public ExtendBase(String id, String name) {
         super(id);
         this.name = name;
+        this.registerDate = LocalDate.now();
+    }
+
+    public ExtendBase(String name) {
+        super();
+        this.name = name;
+        this.registerDate = LocalDate.now();
     }
 }

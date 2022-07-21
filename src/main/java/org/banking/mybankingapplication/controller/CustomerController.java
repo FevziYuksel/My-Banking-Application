@@ -41,8 +41,6 @@ public class CustomerController {
     @GetMapping("/{id}")
     public ResponseEntity getCustomerById(@PathVariable Long id){
 
-        var customers = customerService.getCustomerById(id);
-
-        return ResponseEntity.status(HttpStatus.OK).body(customers);
+        return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
     }
 }

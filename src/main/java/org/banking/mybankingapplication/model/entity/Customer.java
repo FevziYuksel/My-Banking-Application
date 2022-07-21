@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -34,13 +35,9 @@ public class Customer extends ExtendBase {
     private String address;
 
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(
-            name = "customer_id",
-            //referencedColumnName = "account_id",
-            unique = true,
-            nullable = false
-    )
+
+
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private Set<Account> costumerAccounts;
 
     //private List<Card> customerCards;
@@ -55,6 +52,8 @@ public class Customer extends ExtendBase {
         this.email = email;
         this.phoneNo = phoneNo;
         this.address = address;
+
+
     }
     public Customer(String name, String surname, String password, String email, String phoneNo, String address) {
         super(name);
@@ -63,6 +62,7 @@ public class Customer extends ExtendBase {
         this.email = email;
         this.phoneNo = phoneNo;
         this.address = address;
+
     }
 
 }
