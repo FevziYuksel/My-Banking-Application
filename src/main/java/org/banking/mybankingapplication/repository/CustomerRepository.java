@@ -10,7 +10,7 @@ public interface CustomerRepository extends JpaRepository<Customer,String> {
 
     Customer findByName(String name);
 
-    List<Optional<Customer>> getAll();
+    //List<Optional<Customer>> getAll(); //Clash with .findAll()
 
     //Optional<Customer> getCustomerBy
 
