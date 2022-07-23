@@ -26,8 +26,8 @@ public class Account extends ExtendBase implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(
-            name = "account_id"
-            //referencedColumnName = "customer_id",
+            name = "account_id",
+            referencedColumnName = "customer_id"
 
             //unique = true,
             //nullable = false
