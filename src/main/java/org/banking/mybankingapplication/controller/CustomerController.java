@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
-@RequiredArgsConstructor
+//@RequiredArgsConstructor //Change to Constructor injection
 @RestController
 @RequestMapping("/v1/Customer")
-
-
 public class CustomerController {
 
     @Autowired

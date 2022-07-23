@@ -35,6 +35,20 @@ public class CustomerService {
         }
         return customerDTOs;
     }
+
+    public void addCustomer(Customer customer){
+
+        customerRepository.save(customer);
+
+    }
+    public Customer getCustomerByName(String name){
+
+        var customer = customerRepository.getByName(name); //call from user service
+
+
+        return customerRepository.save(customer);
+
+    }
 /*
     public CustomerDTO getCustomerById(Long id){
 
@@ -44,5 +58,6 @@ public class CustomerService {
     }
 
  */
+
 
 }

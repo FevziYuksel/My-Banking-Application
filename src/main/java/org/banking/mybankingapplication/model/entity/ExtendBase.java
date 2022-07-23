@@ -23,7 +23,7 @@ public abstract class ExtendBase extends Base{
 
     private LocalDate registerDate;
 
-    public ExtendBase(String id, String name) {
+    public ExtendBase(Long id, String name) {
         super(id);
         this.name = name;
         this.registerDate = LocalDate.now();

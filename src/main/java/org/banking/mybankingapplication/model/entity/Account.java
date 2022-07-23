@@ -26,25 +26,35 @@ public class Account extends ExtendBase implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(
-            name = "account_id",
+            name = "account_id"
             //referencedColumnName = "customer_id",
-            unique = true,
-            nullable = false
+
+            //unique = true,
+            //nullable = false
     )
     private Customer customer;
 
-    public Account(String id, String name, Currency currency) {
+
+
+    public Account(Long id, String name, Currency currency) {
         super(id, name);
         this.currency = currency;
         this.balance = BigDecimal.ZERO;
     }
     public Account(String name, Currency currency) {
         super(name);
-        this.currency = currency;
+        this.currency = Currency.TURKISH_LIRA;
         this.balance = BigDecimal.ZERO;
     }
 
-
+    @Override
+    public String toString() {
+        return "Account{" +
+                "currency=" + currency +
+                ", balance=" + balance +
+                ", customer=" + customer +
+                '}';
+    }
 
 
 }

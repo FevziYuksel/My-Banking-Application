@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -45,13 +46,15 @@ public class Customer extends ExtendBase {
     //private List<Role> costumerRoles;
 
 
-    public Customer(String id, String name, String surname, String password, String email, String phoneNo, String address) {
+
+    public Customer(Long id, String name, String surname, String password, String email, String phoneNo, String address) {
         super(id, name);
         this.surname = surname;
         this.password = password;
         this.email = email;
         this.phoneNo = phoneNo;
         this.address = address;
+        this.costumerAccounts = new HashSet<>();
 
 
     }
@@ -62,7 +65,21 @@ public class Customer extends ExtendBase {
         this.email = email;
         this.phoneNo = phoneNo;
         this.address = address;
+        this.costumerAccounts = new HashSet<>();
 
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "surname='" + surname + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNo='" + phoneNo + '\'' +
+                ", address='" + address + '\'' +
+                ", costumerAccounts=" + costumerAccounts +
+                '}';
+    }
+
 
 }
