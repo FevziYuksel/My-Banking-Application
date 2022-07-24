@@ -7,12 +7,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 
 @Entity
 @Table(name = "account")
@@ -27,10 +25,7 @@ public class Account extends ExtendBase implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(
             name = "account_id",
-            referencedColumnName = "customer_id"
-
-            //unique = true,
-            //nullable = false
+            referencedColumnName = "id"
     )
     private Customer customer;
 

@@ -39,10 +39,7 @@ public class Customer extends ExtendBase {
 
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "customer_id",
-            referencedColumnName = "account_id"
-    )
+    //@JoinColumn(name = "customer_id")
     private Set<Account> costumerAccounts;
 
     //private List<Card> customerCards;

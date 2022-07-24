@@ -26,33 +26,33 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         //Add exception ??
-        if (!customerRepository.findAll().isEmpty()){
-            return;
+        if (customerRepository.findAll().isEmpty()){
+
+            Customer fevzi = new Customer(
+                    "Fevzi",
+                    "Yüksel",
+                    "123",
+                    "fevzi_fe@hotmail.com",
+                    "+905312513462",
+                    "Istanbul"
+            );
+
+            customerRepository.save(fevzi);
+
+        }
+        if (accountRepository.findAll().isEmpty()){
+
+            Account fevziAccount = new Account(
+                    "fevzi",
+                    Currency.TURKISH_LIRA
+            );
+            accountRepository.save(fevziAccount);
+
         }
 
 
-        Customer fevzi = new Customer(
-                "Fevzi",
-                "Yüksel",
-                "123",
-                "fevzi_fe@hotmail.com",
-                "+905312513462",
-                "Istanbul"
-        );
-
-        customerRepository.save(fevzi);
-
 
         /*
-        System.out.println("1");
-
-        Account fevziAccount = new Account(
-                "fevzi",
-                Currency.TURKISH_LIRA
-        );
-        accountRepository.save(fevziAccount);
-
-        System.out.println("2");
 
          */
 
