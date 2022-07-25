@@ -5,19 +5,19 @@ import org.banking.mybankingapplication.model.entity.base.ExtendBase;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
 
 
 @Entity
-@Table(name = "customer")
-
-
+@Table(name = "customer", schema = "public")
 
 public class Customer extends ExtendBase {
 
@@ -32,15 +32,13 @@ public class Customer extends ExtendBase {
     private String address;
 
 
-
-
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     //@JoinColumn(name = "customer_id")
     private Set<Account> costumerAccounts;
 
-    //private List<Card> customerCards;
+//    private Set<Card> customerCards;
 
-    //private List<Role> costumerRoles;
+    //private Set<Role> costumerRoles;
 
 
 
@@ -64,18 +62,6 @@ public class Customer extends ExtendBase {
         this.address = address;
         this.costumerAccounts = new HashSet<>();
 
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "surname='" + surname + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNo='" + phoneNo + '\'' +
-                ", address='" + address + '\'' +
-                ", costumerAccounts=" + costumerAccounts +
-                '}';
     }
 
 

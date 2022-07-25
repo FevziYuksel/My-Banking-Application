@@ -6,5 +6,5 @@ import java.io.Serializable;
 
 public class Statement extends ExtendBase {
 
-    private long id;
+
 }

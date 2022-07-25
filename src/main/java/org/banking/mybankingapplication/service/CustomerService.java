@@ -8,7 +8,9 @@ import org.banking.mybankingapplication.model.mapper.CustomerMapper;
 import org.banking.mybankingapplication.model.mapper.ICustomerMapper;
 import org.banking.mybankingapplication.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +43,20 @@ public class CustomerService {
         customerRepository.save(customer);
 
     }
+
+    public Customer createCustomer(CustomerDTO customerDTO) {
+
+        Customer addCustomer = customerMapper.toEntity(customerDTO);
+        //If empty ?
+
+        try{
+            return customerRepository.save(addCustomer);
+        }
+        catch (RuntimeException e){
+            throw new RuntimeException(e.getMessage());
+        }
+
+    }
     public Customer getCustomerByName(String name){
 
         var customer = customerRepository.getByName(name); //call from user service
@@ -49,15 +65,17 @@ public class CustomerService {
         return customerRepository.save(customer);
 
     }
-/*
+
     public CustomerDTO getCustomerById(Long id){
 
-        var customers = customerRepository.getAll();
+        var customer = customerRepository.findById(id);
 
-        return customerMapper.toDTO(customer);
+        //Customer customer1 = customer.orElseThrow(() -> new RuntimeException("Cannot find the customer with this id"));
+
+        return customerMapper.toDTO(customer.get());
     }
 
- */
+
 
 
 }

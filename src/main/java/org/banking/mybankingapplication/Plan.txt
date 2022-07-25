@@ -1,2 +1,5 @@
 1 Swap field injection to constructor
-2 Emum chooser
+2 Enum chooser
+3 Keep IDs as Classic long type change to UUID later
+4 CardType vs individual Card Classes ?
+5 Write models

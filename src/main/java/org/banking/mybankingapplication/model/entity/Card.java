@@ -4,5 +4,5 @@ import org.banking.mybankingapplication.model.entity.base.BaseModel;
 
 public class Card extends BaseModel {
 
-    private long id;
+
 }

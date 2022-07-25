@@ -6,5 +6,5 @@ import java.io.Serializable;
 
 public class Role extends ExtendBase {
 
-    private long id;
+
 }
