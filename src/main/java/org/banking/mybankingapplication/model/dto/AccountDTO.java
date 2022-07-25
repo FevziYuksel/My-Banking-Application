@@ -16,6 +16,5 @@ public class AccountDTO {
 
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    private Currency currency;
+    private int currency;
 }
