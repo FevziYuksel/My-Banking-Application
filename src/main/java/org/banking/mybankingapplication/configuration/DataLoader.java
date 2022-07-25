@@ -49,12 +49,5 @@ public class DataLoader implements CommandLineRunner {
             accountRepository.save(fevziAccount);
 
         }
-
-
-
-        /*
-
-         */
-
     }
 }

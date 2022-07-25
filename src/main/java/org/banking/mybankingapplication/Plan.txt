@@ -1,0 +1,2 @@
+1 Swap field injection to constructor
+2 Emum chooser

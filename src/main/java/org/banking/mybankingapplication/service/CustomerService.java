@@ -17,11 +17,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomerService {
 
-    @Autowired
-    private CustomerRepository customerRepository;
-    @Autowired
+
+    private final CustomerRepository customerRepository;
+
     //private ICustomerMapper iCustomerMapper;
-    private CustomerMapper customerMapper;
+    private final CustomerMapper customerMapper;
 
     public List<CustomerDTO> getAllCustomers(){
 
