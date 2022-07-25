@@ -18,13 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
-//@RequiredArgsConstructor //Change to Constructor injection
+
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/Customer")
+
 public class CustomerController {
 
-    @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
+
     @GetMapping
     public ResponseEntity getAllCustomers(){
 

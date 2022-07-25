@@ -1,23 +1,20 @@
-package org.banking.mybankingapplication.model.entity;
+package org.banking.mybankingapplication.model.entity.base;
 
 
 import lombok.*;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
-import javax.persistence.Inheritance;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
 //@Inheritance
 //@Embedded
 //@Embeddable
-public abstract class ExtendBase extends Base{
+public abstract class ExtendBase extends BaseModel {
 
     private String name;
 

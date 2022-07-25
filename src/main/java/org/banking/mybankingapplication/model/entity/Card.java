@@ -1,8 +1,8 @@
 package org.banking.mybankingapplication.model.entity;
 
-import java.io.Serializable;
+import org.banking.mybankingapplication.model.entity.base.BaseModel;
 
-public class Card implements Serializable {
+public class Card extends BaseModel {
 
     private long id;
 }

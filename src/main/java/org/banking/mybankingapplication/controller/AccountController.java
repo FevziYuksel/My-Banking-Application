@@ -1,6 +1,7 @@
 package org.banking.mybankingapplication.controller;
 
 
+import lombok.RequiredArgsConstructor;
 import org.banking.mybankingapplication.model.dto.AccountDTO;
 import org.banking.mybankingapplication.model.entity.Customer;
 import org.banking.mybankingapplication.service.AccountService;
@@ -10,13 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/Account")
 public class AccountController {
 
-    @Autowired
-    private AccountService accountService;
+
+    private final AccountService accountService;
 
 
     @GetMapping

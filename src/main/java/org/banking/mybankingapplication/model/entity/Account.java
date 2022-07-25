@@ -1,6 +1,7 @@
 package org.banking.mybankingapplication.model.entity;
 
 import lombok.*;
+import org.banking.mybankingapplication.model.entity.base.ExtendBase;
 import org.banking.mybankingapplication.model.enums.Currency;
 
 import javax.persistence.*;
@@ -10,12 +11,14 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+//@EqualsAndHashCode
 @Builder
 
 @Entity
 @Table(name = "account")
 
-public class Account extends ExtendBase implements Serializable {
+public class Account extends ExtendBase {
 
     @Enumerated(EnumType.STRING)
     private Currency currency;
@@ -27,6 +30,7 @@ public class Account extends ExtendBase implements Serializable {
             name = "account_id",
             referencedColumnName = "id"
     )
+    @ToString.Exclude
     private Customer customer;
 
 
@@ -42,14 +46,7 @@ public class Account extends ExtendBase implements Serializable {
         this.balance = BigDecimal.ZERO;
     }
 
-    @Override
-    public String toString() {
-        return "Account{" +
-                "currency=" + currency +
-                ", balance=" + balance +
-                ", customer=" + customer +
-                '}';
-    }
+
 
 
 }

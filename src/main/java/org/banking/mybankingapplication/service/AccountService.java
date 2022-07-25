@@ -1,6 +1,7 @@
 package org.banking.mybankingapplication.service;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.banking.mybankingapplication.model.dto.AccountDTO;
 import org.banking.mybankingapplication.model.entity.Account;
 import org.banking.mybankingapplication.model.entity.Customer;
@@ -18,6 +19,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+
+@RequiredArgsConstructor
 @Service
 public class AccountService {
 
@@ -25,11 +28,6 @@ public class AccountService {
     private final CustomerService customerService;
     private final AccountMapper accountMapper;
 
-    public AccountService(AccountRepository accountRepository, CustomerService customerService, AccountMapper accountMapper) {
-        this.accountRepository = accountRepository;
-        this.customerService = customerService;
-        this.accountMapper = accountMapper;
-    }
 
     public List<AccountDTO> getAllAccount(){
         List<Account> all = accountRepository.findAll();

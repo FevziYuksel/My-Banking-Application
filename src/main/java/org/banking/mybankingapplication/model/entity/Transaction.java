@@ -1,6 +1,8 @@
 package org.banking.mybankingapplication.model.entity;
 
-public class Transaction {
+import org.banking.mybankingapplication.model.entity.base.BaseModel;
+
+public class Transaction extends BaseModel {
 
 
 }
