@@ -40,10 +40,21 @@ public class Account extends ExtendBase {
         this.currency = currency;
         this.balance = BigDecimal.ZERO;
     }
-    public Account(String name, Currency currency) {
+    public Account(String name, int currency) {
         super(name);
-        this.currency = Currency.TURKISH_LIRA;
+        this.currency = chooseCurrency(currency);
         this.balance = BigDecimal.ZERO;
+    }
+
+    Currency chooseCurrency(int type){
+
+        return switch (type) {
+            case 1 -> Currency.DOLLAR;
+            case 2 -> Currency.EURO;
+            case 3 -> Currency.TURKISH_LIRA;
+            case 4 -> Currency.POUND;
+            default -> throw new RuntimeException("Currency is not present in data"); //Throw custom exception
+        };
     }
 
 

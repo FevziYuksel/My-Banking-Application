@@ -44,7 +44,7 @@ public class DataLoader implements CommandLineRunner {
 
             Account fevziAccount = new Account(
                     "fevzi",
-                    Currency.TURKISH_LIRA
+                    3
             );
             accountRepository.save(fevziAccount);
 
