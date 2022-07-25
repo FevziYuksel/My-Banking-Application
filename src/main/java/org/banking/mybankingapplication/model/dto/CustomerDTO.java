@@ -20,4 +20,6 @@ public class CustomerDTO {
     private String phoneNo;
 
     private String address;
+
+
 }

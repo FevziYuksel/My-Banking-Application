@@ -11,10 +11,7 @@ import org.banking.mybankingapplication.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,12 +25,14 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @GetMapping
+
+
+    @GetMapping("/All")
     public ResponseEntity getAllCustomers(){
 
         var customers = customerService.getAllCustomers();
         if(customers.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Empty");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find any customer");
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(customers);
@@ -42,6 +41,20 @@ public class CustomerController {
     @GetMapping("/{id}")
     public ResponseEntity getCustomerById(@PathVariable Long id){
 
-        return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+        CustomerDTO customerById = customerService.getCustomerById(id);
+
+        if(customerById == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find the customer with this id");
+
+        return ResponseEntity.status(HttpStatus.OK).body(customerById);
     }
+    @PostMapping("/Add")
+    public ResponseEntity createCustomer(@RequestBody CustomerDTO customerDTO) {
+        Customer addCustomer = customerService.createCustomer(customerDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body("The customer was added successfully");
+    }
+
+
+
 }
