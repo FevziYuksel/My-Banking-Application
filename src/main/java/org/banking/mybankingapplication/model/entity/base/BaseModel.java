@@ -1,41 +1,39 @@
-package org.banking.mybankingapplication.model.entity;
+package org.banking.mybankingapplication.model.entity.base;
 
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Getter
-@Setter
+@Data
 
 @NoArgsConstructor
 @MappedSuperclass
 
 
 
-public abstract class Base implements Serializable {
+public abstract class BaseModel implements Serializable {
 
 
     @Id
-    //@Column(name = "customer_id") //columb cannot be named
+    //@Column(name = "customer_id") //column cannot be named
     @GeneratedValue(strategy = GenerationType.IDENTITY) //cannot generate unique id
     private long id;
 
-    public Base(long id) {
+    public BaseModel(long id) {
         this.id = id;
     }
-    /*
-    @Id
+
+/**    @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "uuid2")
     private String id;
 
         public Base(String id) {
         this.id = id;
-    }
+    }*/
 
- */
+
 
 
 }
