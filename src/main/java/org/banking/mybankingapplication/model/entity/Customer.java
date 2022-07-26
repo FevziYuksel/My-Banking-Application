@@ -4,6 +4,7 @@ import lombok.*;
 import org.banking.mybankingapplication.model.entity.base.ExtendBase;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,14 +32,16 @@ public class Customer extends ExtendBase {
 
     private String address;
 
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<Account> costumerAccounts;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
-    //@JoinColumn(name = "customer_id")
-    private Set<Account> costumerAccounts;
+    @ManyToMany
+     private Set<Card> customerCards;
 
-//    private Set<Card> customerCards;
-
-    //private Set<Role> costumerRoles;
+    @ManyToMany
+    private Set<Role> costumerRoles;
 
 
 
@@ -49,7 +52,8 @@ public class Customer extends ExtendBase {
         this.email = email;
         this.phoneNo = phoneNo;
         this.address = address;
-        this.costumerAccounts = new HashSet<>();
+//        this.costumerAccounts = new HashSet<>();
+        this.costumerAccounts = new ArrayList<>();
 
 
     }
@@ -60,7 +64,8 @@ public class Customer extends ExtendBase {
         this.email = email;
         this.phoneNo = phoneNo;
         this.address = address;
-        this.costumerAccounts = new HashSet<>();
+//        this.costumerAccounts = new HashSet<>();
+        this.costumerAccounts = new ArrayList<>();
 
     }
 

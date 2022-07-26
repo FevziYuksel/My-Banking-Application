@@ -7,6 +7,8 @@ import org.banking.mybankingapplication.model.enums.Currency;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -25,14 +27,16 @@ public class Account extends ExtendBase {
 
     private BigDecimal balance;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(
             name ="customer_id",
             referencedColumnName = "id"
     )
-    @ToString.Exclude
     private Customer customer;
 
+    @OneToMany
+    private Set<Transaction> transactions;
 
 
     public Account(Long id, String name, Currency currency) {
@@ -55,10 +59,5 @@ public class Account extends ExtendBase {
         this.currency = Currency.intToEnum(num);
         this.balance = BigDecimal.ZERO;
     }
-
-
-
-
-
 
 }
