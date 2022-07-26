@@ -17,10 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @RequiredArgsConstructor
@@ -32,9 +29,26 @@ public class AccountService implements IAccountService {
     private final IAccountMapper accountMapper;
 
 
-    public List<AccountDTO> getAllAccount(){
+    @Override
+    public List<Account> getAllAccount() {
+        List<Account> allAccount = accountRepository.findAll();
+        return allAccount;
+    }
+
+    public List<AccountDTO> getAllAccountDTO(){
         List<Account> all = accountRepository.findAll();
         return accountMapper.toDTO(all);
+    }
+
+    @Override
+    public Optional<List<Account>> findAllAccount() {
+        //return Optional.empty();
+        return Optional.of(accountRepository.findAll());
+    }
+
+    @Override
+    public Optional<List<Account>> findAllAccountDTO() {
+        return Optional.empty();
     }
 
     public Customer addAccountByUserName(AccountDTO accountDTO, String name){

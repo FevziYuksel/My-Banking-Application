@@ -2,7 +2,9 @@ package org.banking.mybankingapplication.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.banking.mybankingapplication.model.dto.AccountDTO;
 import org.banking.mybankingapplication.model.dto.CustomerDTO;
+import org.banking.mybankingapplication.model.entity.Account;
 import org.banking.mybankingapplication.model.entity.Customer;
 import org.banking.mybankingapplication.model.mapper.CustomerMapper;
 import org.banking.mybankingapplication.model.mapper.ICustomerMapper;
@@ -26,6 +28,8 @@ public class CustomerService implements ICustomerService {
 
     private final ICustomerMapper customerMapper;
 
+    private final IAccountService accountService;
+
 
     public List<CustomerDTO> getAllCustomers(){
 
@@ -39,13 +43,13 @@ public class CustomerService implements ICustomerService {
         }
         return customerDTOs;
     }
-
+    @Override
     public void addCustomer(Customer customer){
 
         customerRepository.save(customer);
 
     }
-
+    @Override
     public Customer createCustomer(CustomerDTO customerDTO) {
 
         Customer addCustomer = customerMapper.toEntity(customerDTO);
@@ -59,6 +63,7 @@ public class CustomerService implements ICustomerService {
         }
 
     }
+    @Override
     public Customer getCustomerByName(String name){
 
         var customer = customerRepository.getByName(name); //call from user service
@@ -67,8 +72,8 @@ public class CustomerService implements ICustomerService {
         return customerRepository.save(customer);
 
     }
-
-    public CustomerDTO getCustomerById(Long id){
+    @Override
+    public CustomerDTO getCustomerDTOById(Long id){
 
         var customer = customerRepository.findById(id);
 
@@ -76,6 +81,34 @@ public class CustomerService implements ICustomerService {
 
         return customerMapper.toDTO(customer.get());
     }
+
+    @Override
+    public Customer getCustomerById(Long id){
+
+        var customer = customerRepository.findById(id);
+        Customer customer1 = customer.orElseThrow(() -> new RuntimeException("Cannot find the customer with this id"));
+        return customer1;
+
+    }
+    @Override
+    public Customer addAccountToCustomerById(AccountDTO accountDTO, Long id) {
+        Account account = accountService.addAccount(accountDTO);
+
+
+        Optional<Customer> byId = customerRepository.findById(id);
+
+
+
+        Customer customer1 = byId.orElseThrow(() -> new RuntimeException("Cannot find the customer with this id"));
+
+
+        customer1.getCostumerAccounts().add(account);
+
+
+
+        return customerRepository.save(customer1);
+    }
+
 
 
 
