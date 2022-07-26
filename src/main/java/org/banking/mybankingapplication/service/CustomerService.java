@@ -7,6 +7,8 @@ import org.banking.mybankingapplication.model.entity.Customer;
 import org.banking.mybankingapplication.model.mapper.CustomerMapper;
 import org.banking.mybankingapplication.model.mapper.ICustomerMapper;
 import org.banking.mybankingapplication.repository.CustomerRepository;
+import org.banking.mybankingapplication.service.ServiceInterface.IAccountService;
+import org.banking.mybankingapplication.service.ServiceInterface.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,13 +19,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 
-public class CustomerService {
+public class CustomerService implements ICustomerService {
 
 
     private final CustomerRepository customerRepository;
 
-    //private ICustomerMapper iCustomerMapper;
-    private final CustomerMapper customerMapper;
+    private final ICustomerMapper customerMapper;
+
 
     public List<CustomerDTO> getAllCustomers(){
 

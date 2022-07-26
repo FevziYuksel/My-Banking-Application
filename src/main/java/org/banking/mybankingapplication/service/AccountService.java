@@ -6,8 +6,11 @@ import org.banking.mybankingapplication.model.dto.AccountDTO;
 import org.banking.mybankingapplication.model.entity.Account;
 import org.banking.mybankingapplication.model.entity.Customer;
 import org.banking.mybankingapplication.model.mapper.AccountMapper;
+import org.banking.mybankingapplication.model.mapper.IAccountMapper;
 import org.banking.mybankingapplication.repository.AccountRepository;
 import org.banking.mybankingapplication.repository.CustomerRepository;
+import org.banking.mybankingapplication.service.ServiceInterface.IAccountService;
+import org.banking.mybankingapplication.service.ServiceInterface.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -22,11 +25,12 @@ import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
-public class AccountService {
+public class AccountService implements IAccountService {
 
     private final AccountRepository accountRepository;
-    private final CustomerService customerService;
-    private final AccountMapper accountMapper;
+    private final ICustomerService customerService;
+
+    private final IAccountMapper accountMapper;
 
 
     public List<AccountDTO> getAllAccount(){
@@ -34,7 +38,7 @@ public class AccountService {
         return accountMapper.toDTO(all);
     }
     @Transactional
-    public Customer addAccount(AccountDTO accountDTO, String name){
+    public Customer addAccountByUserName(AccountDTO accountDTO, String name){
         //name = "Fevzi";
         Account newAccount = accountMapper.toEntity(accountDTO);
 
