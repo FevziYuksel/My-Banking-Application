@@ -17,9 +17,7 @@ import java.util.List;
 @RequestMapping("/v1/Account")
 public class AccountController {
 
-
     private final IAccountService accountService;
-
 
     @GetMapping
     public ResponseEntity getAllAccount(){
@@ -34,16 +32,7 @@ public class AccountController {
     }
 
     //Check !!
-    @PostMapping("/{name}")
-    public ResponseEntity addAccountByUserName(@RequestBody AccountDTO accountDTO, @PathVariable String name){
 
-        var checkCustomer = accountService.addAccountByUserName(accountDTO, name);
-
-        if(checkCustomer == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user is not found!");
-
-        return ResponseEntity.status(HttpStatus.OK).body("The account was added to user's account ");
-    }
 
 
 

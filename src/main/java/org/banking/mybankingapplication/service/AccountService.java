@@ -28,7 +28,6 @@ import java.util.Set;
 public class AccountService implements IAccountService {
 
     private final AccountRepository accountRepository;
-    private final ICustomerService customerService;
 
     private final IAccountMapper accountMapper;
 
@@ -37,39 +36,15 @@ public class AccountService implements IAccountService {
         List<Account> all = accountRepository.findAll();
         return accountMapper.toDTO(all);
     }
-    @Transactional
+
     public Customer addAccountByUserName(AccountDTO accountDTO, String name){
         //name = "Fevzi";
-        Account newAccount = accountMapper.toEntity(accountDTO);
+        return new Customer();
 
-        Customer customer = customerService.getCustomerByName(name);
-
-        customer.getCostumerAccounts().add(newAccount);
-
-        System.out.println("*********************************");
-
-
-        for(var v : customer.getCostumerAccounts())
-            System.out.println(v);
-
-        if(customer == null)
-            return null;
-        /*
-        try{
-            customerRepository.save(customer);
-        }
-        catch (Exception e){
-            e.getCause();
-        }
-
-         */
-        customerService.addCustomer(customer);
-
-        //accountRepository.save(newAccount);
-
-        //Custom exception
-
-        return customer;
+    }
+    public Account addAccount(AccountDTO accountDTO){
+        Account account = accountMapper.toEntity(accountDTO);
+        return accountRepository.save(account);
 
     }
 }

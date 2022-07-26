@@ -1,5 +1,6 @@
 package org.banking.mybankingapplication.service.ServiceInterface;
 
+import org.banking.mybankingapplication.model.dto.AccountDTO;
 import org.banking.mybankingapplication.model.dto.CustomerDTO;
 import org.banking.mybankingapplication.model.entity.Customer;
 
@@ -9,11 +10,19 @@ public interface ICustomerService {
 
      void addCustomer(Customer customer);
 
-     public List<CustomerDTO> getAllCustomers();
+     List<CustomerDTO> getAllCustomers();
 
      Customer createCustomer(CustomerDTO customerDTO);
 
      Customer getCustomerByName(String name);
 
-     CustomerDTO getCustomerById(Long id);
+     Customer getCustomerById(Long id);
+
+     CustomerDTO getCustomerDTOById(Long id);
+
+     Customer addAccountToCustomerById(AccountDTO accountDTO, Long id);
+
+
+
+
 }
