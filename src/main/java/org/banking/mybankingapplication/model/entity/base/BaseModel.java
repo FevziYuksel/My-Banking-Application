@@ -14,7 +14,6 @@ import java.io.Serializable;
 
 public abstract class BaseModel implements Serializable {
 
-
     @Id
     //@Column(name = "customer_id") //column cannot be named
     @GeneratedValue(strategy = GenerationType.IDENTITY) //cannot generate unique id

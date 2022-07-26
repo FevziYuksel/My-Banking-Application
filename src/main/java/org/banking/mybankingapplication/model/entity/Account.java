@@ -25,9 +25,9 @@ public class Account extends ExtendBase {
 
     private BigDecimal balance;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(
-            name = "account_id",
+            name ="customer_id",
             referencedColumnName = "id"
     )
     @ToString.Exclude
@@ -40,22 +40,23 @@ public class Account extends ExtendBase {
         this.currency = currency;
         this.balance = BigDecimal.ZERO;
     }
-    public Account(String name, int currency) {
+    public Account(String name, Currency currency) {
         super(name);
-        this.currency = chooseCurrency(currency);
+        this.currency = currency;
+        this.balance = BigDecimal.ZERO;
+    }
+    public Account(Long id, String name, int num) {
+        super(id, name);
+        this.currency = Currency.intToEnum(num);
+        this.balance = BigDecimal.ZERO;
+    }
+    public Account(String name, int num) {
+        super(name);
+        this.currency = Currency.intToEnum(num);
         this.balance = BigDecimal.ZERO;
     }
 
-    Currency chooseCurrency(int type){
 
-        return switch (type) {
-            case 1 -> Currency.DOLLAR;
-            case 2 -> Currency.EURO;
-            case 3 -> Currency.TURKISH_LIRA;
-            case 4 -> Currency.POUND;
-            default -> throw new RuntimeException("Currency is not present in data"); //Throw custom exception
-        };
-    }
 
 
 

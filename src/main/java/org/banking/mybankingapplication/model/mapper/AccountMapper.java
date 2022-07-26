@@ -2,6 +2,7 @@ package org.banking.mybankingapplication.model.mapper;
 
 import org.banking.mybankingapplication.model.dto.AccountDTO;
 import org.banking.mybankingapplication.model.entity.Account;
+import org.banking.mybankingapplication.model.enums.Currency;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,8 +28,8 @@ public class AccountMapper implements IAccountMapper{
     @Override
     public AccountDTO toDTO(Account Account) {
         return AccountDTO.builder().
-                name(Account.getName()).
-                currency(Account.getCurrency()).build();
+                name(Account.getName())
+                .currency(Account.getCurrency()).build();
 
     }
 

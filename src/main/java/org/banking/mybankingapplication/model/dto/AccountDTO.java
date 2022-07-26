@@ -16,5 +16,5 @@ public class AccountDTO {
 
     private String name;
 
-    private int currency;
+    private Currency currency;
 }
