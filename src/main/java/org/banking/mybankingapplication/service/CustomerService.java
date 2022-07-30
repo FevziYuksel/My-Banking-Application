@@ -1,37 +1,28 @@
 package org.banking.mybankingapplication.service;
 
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.banking.mybankingapplication.model.dto.AccountDTO;
 import org.banking.mybankingapplication.model.dto.CustomerDTO;
 import org.banking.mybankingapplication.model.entity.Account;
 import org.banking.mybankingapplication.model.entity.Customer;
 import org.banking.mybankingapplication.model.mapper.CustomerMapper;
-import org.banking.mybankingapplication.model.mapper.ICustomerMapper;
 import org.banking.mybankingapplication.repository.CustomerRepository;
-import org.banking.mybankingapplication.service.ServiceInterface.IAccountService;
-import org.banking.mybankingapplication.service.ServiceInterface.ICustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 
 
-public class CustomerService implements ICustomerService {
+public class CustomerService  {
 
 
     private final CustomerRepository customerRepository;
 
-    private final ICustomerMapper customerMapper;
+    private final CustomerMapper customerMapper;
 
-    private final IAccountService accountService;
+    private final AccountService accountService;
 
 
     public List<Customer> getAllCustomers(){
@@ -46,13 +37,13 @@ public class CustomerService implements ICustomerService {
         }
         return customers;
     }
-    @Override
+
     public void addCustomer(Customer customer){
 
         customerRepository.save(customer);
 
     }
-    @Override
+
     public Customer createCustomer(CustomerDTO customerDTO) {
 
         Customer addCustomer = customerMapper.toEntity(customerDTO);
@@ -66,7 +57,7 @@ public class CustomerService implements ICustomerService {
         }
 
     }
-    @Override
+
     public Customer getCustomerByName(String name){
 
         var customer = customerRepository.getByName(name); //call from user service
@@ -75,7 +66,7 @@ public class CustomerService implements ICustomerService {
         return customerRepository.save(customer);
 
     }
-    @Override
+
     public CustomerDTO getCustomerDTOById(Long id){
 
         var customer = customerRepository.findById(id);
@@ -85,7 +76,7 @@ public class CustomerService implements ICustomerService {
         return customerMapper.toDTO(customer.get());
     }
 
-    @Override
+
     public Customer getCustomerById(Long id){
 
         var customer = customerRepository.findById(id);
@@ -93,7 +84,7 @@ public class CustomerService implements ICustomerService {
 
 
     }
-    @Override
+
     public Customer addAccountToCustomerById(Long customerId, Long accountId) {
 
         Customer customer = this.getCustomerById(customerId);

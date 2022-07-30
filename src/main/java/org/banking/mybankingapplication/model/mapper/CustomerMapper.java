@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class CustomerMapper implements ICustomerMapper {
+public class CustomerMapper  {
 
-    @Override
+
     public Customer toEntity(CustomerDTO dto) {
         Customer customer = new Customer();
         customer.setName(dto.getName());
@@ -23,7 +23,7 @@ public class CustomerMapper implements ICustomerMapper {
         return customer;
     }
 
-    @Override
+
     public List<Customer> toEntity(List<CustomerDTO> customerDTOs) {
         return customerDTOs.stream().map(this::toEntity)
                 .collect(Collectors.toList());
@@ -31,7 +31,7 @@ public class CustomerMapper implements ICustomerMapper {
     }
 
 
-    @Override
+
     public CustomerDTO toDTO(Customer customer) {
         CustomerDTO dto = CustomerDTO.builder().name(customer.getName())
                 .surname(customer.getSurname()).password(customer.getPassword())
@@ -41,7 +41,7 @@ public class CustomerMapper implements ICustomerMapper {
         return dto;
     }
 
-    @Override
+
     public List<CustomerDTO> toDTO(List<Customer> customers) {
         return customers.stream().map(this::toDTO).collect(Collectors.toList());
     }

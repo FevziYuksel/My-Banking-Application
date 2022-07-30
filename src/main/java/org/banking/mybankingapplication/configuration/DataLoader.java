@@ -39,7 +39,16 @@ public class DataLoader implements CommandLineRunner {
             fevzi.setPhoneNo("+905312513462");
             fevzi.setAddress("Istanbul");
 
-            customerRepository.save(fevzi);
+            Customer ahmet = new Customer();
+            fevzi.setName("Ahmet");
+            fevzi.setSurname("Yüksel");
+            fevzi.setPassword("8418");
+            fevzi.setEmail("ahmet@hotmail.com");
+            fevzi.setPhoneNo("+905312555462");
+            fevzi.setAddress("Ankara");
+
+
+            customerRepository.saveAll(List.of(fevzi, ahmet));
 
         }
 

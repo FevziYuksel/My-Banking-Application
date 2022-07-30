@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class AccountMapper implements IAccountMapper{
-    @Override
+public class AccountMapper {
+
     public Account toEntity(AccountDTO accountDTO) {
 
         Account account = new Account();
@@ -20,13 +20,13 @@ public class AccountMapper implements IAccountMapper{
         return account;
     }
 
-    @Override
+
     public List<Account> toEntity(List<AccountDTO> accountDTO) {
         return accountDTO.stream().map(this::toEntity)
                 .collect(Collectors.toList());
     }
 
-    @Override
+
     public AccountDTO toDTO(Account account) {
         return AccountDTO.builder().
                 name(account.getName())
@@ -34,7 +34,7 @@ public class AccountMapper implements IAccountMapper{
 
     }
 
-    @Override
+
     public List<AccountDTO> toDTO(List<Account> account) {
         return account.stream().map(this::toDTO)
                 .collect(Collectors.toList());

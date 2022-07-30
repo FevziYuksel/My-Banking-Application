@@ -5,6 +5,7 @@
 5 Write models
 6 Implement Kafka separate services
 7 Change service controller : interface the methods that you add are should added through interface
+8 Join columns vs default separate table
 
 
 

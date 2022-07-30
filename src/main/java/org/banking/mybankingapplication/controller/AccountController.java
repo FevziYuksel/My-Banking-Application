@@ -4,23 +4,19 @@ package org.banking.mybankingapplication.controller;
 import lombok.RequiredArgsConstructor;
 import org.banking.mybankingapplication.model.dto.AccountDTO;
 import org.banking.mybankingapplication.model.entity.Account;
-import org.banking.mybankingapplication.model.entity.Customer;
 import org.banking.mybankingapplication.service.AccountService;
-import org.banking.mybankingapplication.service.ServiceInterface.IAccountService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/account")
 public class AccountController {
 
-    private final IAccountService accountService;
+    private final AccountService accountService;
 
     @GetMapping
     public ResponseEntity getAllAccounts(){
