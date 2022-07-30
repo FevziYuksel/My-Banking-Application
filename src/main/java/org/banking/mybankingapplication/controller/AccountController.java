@@ -17,32 +17,26 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping("/v1/account")
 public class AccountController {
 
     private final IAccountService accountService;
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity getAllAccounts(){
 
         List<Account> allAccount = accountService.getAllAccount();
 
-        if(allAccount.isEmpty()){
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body("There aren't any accounts created!");
-        }
-
         return ResponseEntity.status(HttpStatus.OK).body(allAccount);
     }
-    @GetMapping("/getAllDTO")
+    @GetMapping(path = "/all")
     public ResponseEntity getAllAccountsDTO(){
 
         List<AccountDTO> allAccountDTO = accountService.getAllAccountDTO();
 
-        accountService.getAllAccount();
-
-        if(allAccountDTO.isEmpty()){
+        if(allAccountDTO.isEmpty())
             ResponseEntity.status(HttpStatus.NOT_FOUND).body("There aren't any accounts created!");
-        }
+
 
         return ResponseEntity.status(HttpStatus.OK).body(allAccountDTO);
     }
@@ -63,6 +57,36 @@ public class AccountController {
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body("There aren't any accounts created!");
 
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getAccountById(@PathVariable(name = "id") Long id){
+        Account byId;
+        System.out.println(id);
+        try {
+            byId = accountService.getAccountById(id);
+        } catch (RuntimeException exception) {  //custom exception
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(byId);
+
+    }
+
+        @GetMapping("/?id= {id}")
+        public ResponseEntity findAccountById(@RequestParam("id") Long id) throws RuntimeException{
+            //Delay exception
+            //Try catch block necessity
+            //Check isPresent in service than response not found here ????
+            Account byId;
+            try {
+                byId = accountService.findAccountById(id);
+            } catch (RuntimeException exception) {  //custom exception
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.status(HttpStatus.OK).body(byId);
+
+    }
+
 
 
 

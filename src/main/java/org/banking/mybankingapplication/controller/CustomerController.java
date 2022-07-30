@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/Customer")
+@RequestMapping("/v1/customer")
 
 public class CustomerController {
 
@@ -32,13 +32,13 @@ public class CustomerController {
 
 
 
-    @GetMapping("/All")
+    @GetMapping("/all")
     public ResponseEntity getAllCustomers(){
 
         var customers = customerService.getAllCustomers();
-        if(customers.isEmpty()){
+        if(customers.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find any customer");
-        }
+
 
         return ResponseEntity.status(HttpStatus.OK).body(customers);
     }
@@ -53,7 +53,7 @@ public class CustomerController {
 
         return ResponseEntity.status(HttpStatus.OK).body(customerById);
     }
-    @PostMapping("/Add")
+    @PostMapping("/add")
     public ResponseEntity createCustomer(@RequestBody CustomerDTO customerDTO) {
         Customer addCustomer = customerService.createCustomer(customerDTO);
 
@@ -62,7 +62,7 @@ public class CustomerController {
     @PostMapping("/{name}")
     public ResponseEntity addAccountByUserName(@RequestBody AccountDTO accountDTO, @PathVariable String name){
 
-        var checkCustomer = accountService.addAccountByUserName(accountDTO, name);
+        Customer checkCustomer = null;
 
         if(checkCustomer == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user is not found!");
@@ -71,13 +71,23 @@ public class CustomerController {
     }
 
     @PostMapping("/addAccount/{id}")
-    public ResponseEntity addAccountToCustomerById(@RequestBody AccountDTO accountDTO, @PathVariable Long id){
+    public ResponseEntity addAccountToCustomer2(@RequestBody AccountDTO accountDTO, @PathVariable Long id){
 
-        Customer customer = customerService.addAccountToCustomerById(accountDTO, id);
-
-        return ResponseEntity.status(HttpStatus.OK).body(customer);
+        return ResponseEntity.notFound().build();
 
     }
+    @PutMapping("/{customerId}/add/{accountId}")
+    public ResponseEntity addAccountToCustomerById(@PathVariable Long customerId, @PathVariable Long accountId){
+        Customer customer = customerService.addAccountToCustomerById(customerId, accountId);
+        //SHOULD I CHECK EXCEPTION?????????
+        return ResponseEntity.status(HttpStatus.OK).body(customer);
+    }
+//    @PutMapping("/{customerId}/add/{accountId}")
+//    public ResponseEntity addNewAccountToCustomerById(@PathVariable Long customerId, @RequestBody Account account){
+//        //Customer customer = customerService.addAccountToCustomerById(customerId, accountId);
+//        //SHOULD I CHECK EXCEPTION?????????
+//        return ResponseEntity.status(HttpStatus.OK).build();
+//    }
 
 
 

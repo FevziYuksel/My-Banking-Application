@@ -28,7 +28,7 @@ public class AccountService implements IAccountService {
 
     private final IAccountMapper accountMapper;
 
-
+    //If empty return EntityNotFoundException as Response
     @Override
     public List<Account> getAllAccount() {
         List<Account> allAccount = accountRepository.findAll();
@@ -36,8 +36,8 @@ public class AccountService implements IAccountService {
     }
 
     public List<AccountDTO> getAllAccountDTO(){
-        List<Account> all = accountRepository.findAll();
-        return accountMapper.toDTO(all);
+        List<Account> allAccount = getAllAccount();
+        return accountMapper.toDTO(allAccount);
     }
 
     @Override
@@ -47,18 +47,25 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Optional<List<Account>> findAllAccountDTO() {
-        return Optional.empty();
+    public Optional<List<AccountDTO>> findAllAccountDTO() {
+        List<Account> all = accountRepository.findAll();
+        return Optional.of(accountMapper.toDTO(all));
     }
 
-    public Customer addAccountByUserName(AccountDTO accountDTO, String name){
-        //name = "Fevzi";
-        return new Customer();
+    @Override
+    public Account getAccountById(Long id) {
+        Optional<Account> byId = accountRepository.findById(id);
+
+        return byId.orElse(null);
+    }
+
+    @Override
+    public Account findAccountById(Long id) {
+        //return Optional.empty();
+        Optional<Account> byId = accountRepository.findById(id);
+
+        return byId.orElseThrow(() -> new RuntimeException("NOT FOUND !"));
 
     }
-    public Account addAccount(AccountDTO accountDTO){
-        Account account = accountMapper.toEntity(accountDTO);
-        return accountRepository.save(account);
 
-    }
 }

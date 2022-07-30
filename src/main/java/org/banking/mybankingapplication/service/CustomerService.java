@@ -1,6 +1,7 @@
 package org.banking.mybankingapplication.service;
 
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.banking.mybankingapplication.model.dto.AccountDTO;
 import org.banking.mybankingapplication.model.dto.CustomerDTO;
@@ -21,6 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 
+
 public class CustomerService implements ICustomerService {
 
 
@@ -31,17 +33,17 @@ public class CustomerService implements ICustomerService {
     private final IAccountService accountService;
 
 
-    public List<CustomerDTO> getAllCustomers(){
+    public List<Customer> getAllCustomers(){
 
         var customers = customerRepository.findAll();
-        List<CustomerDTO> customerDTOs = customerMapper.toDTO(customers);
+        //List<CustomerDTO> customerDTOs = customerMapper.toDTO(customers);
 
 
         //Send custom response ??
-        if(customerDTOs.isEmpty()){
+        if(customers.isEmpty()){
             //throw new RuntimeException("");
         }
-        return customerDTOs;
+        return customers;
     }
     @Override
     public void addCustomer(Customer customer){
@@ -86,31 +88,27 @@ public class CustomerService implements ICustomerService {
     public Customer getCustomerById(Long id){
 
         var customer = customerRepository.findById(id);
-        Customer customer1 = customer.orElseThrow(() -> new RuntimeException("Cannot find the customer with this id"));
-        return customer1;
+        return customer.orElseThrow(() -> new RuntimeException("Cannot find the customer with this id"));
+
 
     }
     @Override
-    public Customer addAccountToCustomerById(AccountDTO accountDTO, Long id) {
-        Account account = accountService.addAccount(accountDTO);
+    public Customer addAccountToCustomerById(Long customerId, Long accountId) {
+
+        Customer customer = this.getCustomerById(customerId);
+
+        Account account = accountService.findAccountById(accountId);
+
+        //account.setCustomer(customer); //Doesn't work !
+
+        List<Account> costumerAccounts = customer.getCostumerAccounts();
+
+        costumerAccounts.add(account);
+
+        return customerRepository.save(customer);
 
 
-        Optional<Customer> byId = customerRepository.findById(id);
 
-
-
-        Customer customer1 = byId.orElseThrow(() -> new RuntimeException("Cannot find the customer with this id"));
-
-
-        customer1.getCostumerAccounts().add(account);
-
-
-
-        return customerRepository.save(customer1);
     }
-
-
-
-
 
 }
