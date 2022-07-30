@@ -1,11 +1,13 @@
 package org.banking.mybankingapplication.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.banking.mybankingapplication.model.entity.base.ExtendBase;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -13,16 +15,27 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 @ToString
+//@EqualsAndHashCode
 @Builder
 
 
 @Entity
 @Table(name = "customer", schema = "public")
 
-public class Customer extends ExtendBase {
+public class Customer implements Serializable {
+
+    @Id
+    //@Column(name = "customer_id") //column cannot be named
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //cannot generate unique id
+    private long id;
+
+    private String name;
 
     private String surname;
+
+    private LocalDate registerDate = LocalDate.now();
 
     private String password;
 
@@ -32,42 +45,21 @@ public class Customer extends ExtendBase {
 
     private String address;
 
-    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
-//    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+
     @ToString.Exclude
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name ="account_id", referencedColumnName = "id")
     private List<Account> costumerAccounts;
 
     @ManyToMany
-     private Set<Card> customerCards;
-
-    @ManyToMany
-    private Set<Role> costumerRoles;
+    @ToString.Exclude
+    private Set<Card> customerCards;
 
 
-
-    public Customer(Long id, String name, String surname, String password, String email, String phoneNo, String address) {
-        super(id, name);
-        this.surname = surname;
-        this.password = password;
-        this.email = email;
-        this.phoneNo = phoneNo;
-        this.address = address;
-//        this.costumerAccounts = new HashSet<>();
-        this.costumerAccounts = new ArrayList<>();
-
-
-    }
-    public Customer(String name, String surname, String password, String email, String phoneNo, String address) {
-        super(name);
-        this.surname = surname;
-        this.password = password;
-        this.email = email;
-        this.phoneNo = phoneNo;
-        this.address = address;
-//        this.costumerAccounts = new HashSet<>();
-        this.costumerAccounts = new ArrayList<>();
-
-    }
+//    @JsonIgnore
+//    @ManyToMany
+//    @ToString.Exclude
+//    private List<Company> companies;
 
 
 }

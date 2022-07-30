@@ -6,18 +6,15 @@ import lombok.*;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDate;
 
-@Data
+
 
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
-//@Inheritance
-//@Embedded
-//@Embeddable
+
 public abstract class ExtendBase extends BaseModel {
 
     private String name;
-
     private LocalDate registerDate;
 
     public ExtendBase(Long id, String name) {

@@ -19,57 +19,36 @@ public enum Currency {
      * Change fields to String ??
      * */
 
-    DOLLAR(1),
-    EURO(2),
-    POUND(3),
-    TURKISH_LIRA(4);
+    DOLLAR("USD"),
+    EURO("EUR"),
+    TURKISH_LIRA("TRY"),
+    POUND("GBP");
+
+    Currency(String name) {}
 
 
-    public int getI() {
-        return i;
-    }
-
-    public void setI(int i) {
-        this.i = i;
-    }
-
-    int i;
-    Currency(int i) {
-        this.i = i;
-    }
-
-    String getText(){
-        return this.name();
-    }
-
-    @JsonCreator
-    public static Currency intToEnum(int number){
-        //If enums are ordered
+    public static Currency StringToEnum(String text) {
+        //Text must be exactly same
         Currency currency = null;
         try{
-            currency = Currency.values()[number];
-        }
-        catch(Exception e){
+            currency = Currency.valueOf(text.toUpperCase());
+        }catch (Exception e){
             throw new IllegalArgumentException("Currency is not present in data");
         }
         return currency;
-
     }
-    public static int EnumToInt(Currency currency){
-        //If enums are ordered
-        return currency.ordinal();
+    public static String EnumToString(Currency currency) {
+
+        String text ;
+        try{
+            text = currency.name();
+        }catch (Exception e){
+            throw new IllegalArgumentException("Currency is not present in data");
+        }
+        return text;
     }
 
-    public static Currency EnumToIntSwitch(int number){
 
-        return switch (number) {
-            case 1-> Currency.DOLLAR;
-            case 2 -> Currency.EURO;
-            case 3 -> Currency.TURKISH_LIRA;
-            case 4 -> Currency.POUND;
-            default -> throw new IllegalArgumentException("Currency is not present in data");
-        };
-    }
 
 }
 

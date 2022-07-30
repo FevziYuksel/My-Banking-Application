@@ -9,7 +9,9 @@ import java.io.Serializable;
 
 @NoArgsConstructor
 @MappedSuperclass
-
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@Embedded
+//@Embeddable
 
 
 public abstract class BaseModel implements Serializable {
