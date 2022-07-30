@@ -8,17 +8,16 @@ import java.util.Optional;
 
 public interface CustomerRepository extends JpaRepository<Customer,Long> {
 
-    Optional<Customer> findByName(String name);
+    Optional<Customer> findByNameContainingIgnoreCase(String name);
 
     Customer getByName(String name);
 
     Optional<Customer> findById(Long id);
 
-    //Customer getById(Long id);
 
-    //List<Optional<Customer>> getAll(); //Clash with .findAll()
 
-    //Optional<Customer> getCustomerBy
+
+
 
 
 

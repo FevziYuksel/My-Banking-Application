@@ -1,5 +1,6 @@
 package org.banking.mybankingapplication.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.banking.mybankingapplication.model.entity.base.BaseModel;
 
@@ -29,6 +30,7 @@ public class Transaction implements Serializable {
     private LocalDate transactionDate = LocalDate.now();
 
     private BigDecimal amount;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="account_id", referencedColumnName = "id")

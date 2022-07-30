@@ -32,9 +32,9 @@ public class Card implements Serializable {
     private LocalDate registerDate = LocalDate.now();
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="card_id", referencedColumnName = "id")
-    private Customer cardHolder;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name ="card_id", referencedColumnName = "id")
+//    private Customer cardHolder;
 
     @ManyToMany(mappedBy = "registeredCards",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Account> cardAccounts;

@@ -23,7 +23,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "account")
 
-//Cannot be exist without customer fix it
+//Cannot be existed without customer fix it
 public class Account implements Serializable {
 
     @Id
@@ -42,7 +42,7 @@ public class Account implements Serializable {
     private BigDecimal balance = BigDecimal.ZERO;
 
 
-//    @JsonIgnore //prevent stackoverflow
+    @JsonIgnore //prevent stackoverflow
     @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name ="customer_id", referencedColumnName = "id") //Doesn't work , doesn't create real customer_id and create separate id-id table
     private Customer customer;
