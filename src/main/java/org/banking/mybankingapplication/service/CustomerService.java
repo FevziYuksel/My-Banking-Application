@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 @RequiredArgsConstructor
@@ -99,7 +100,7 @@ public class CustomerService implements ICustomerService {
 
         Account account = accountService.findAccountById(accountId);
 
-        //account.setCustomer(customer); //Doesn't work !
+//        account.setCustomer(customer); //Doesn't work !
 
         List<Account> costumerAccounts = customer.getCostumerAccounts();
 

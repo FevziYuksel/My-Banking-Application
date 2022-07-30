@@ -2,10 +2,12 @@ package org.banking.mybankingapplication.model.entity;
 
 import lombok.*;
 import org.banking.mybankingapplication.model.entity.base.BaseModel;
+import org.banking.mybankingapplication.model.enums.CardType;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -13,8 +15,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 
-@ToString
-//@EqualsAndHashCode
 @Builder
 
 @Entity
@@ -23,20 +23,21 @@ public class Card implements Serializable {
 
 
     @Id
-    //@Column(name = "customer_id") //column cannot be named
     @GeneratedValue(strategy = GenerationType.IDENTITY) //cannot generate unique id
     private long id;
 
-    private String name;
+    @Enumerated(value = EnumType.STRING)
+    private CardType cardType;
 
-    private LocalDate registerDate;
+    private LocalDate registerDate = LocalDate.now();
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="card_id", referencedColumnName = "id")
     private Customer cardHolder;
 
-    @ManyToMany
-    private Set<Account> cardAccounts;
+    @ManyToMany(mappedBy = "registeredCards",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Account> cardAccounts;
 
 
 }

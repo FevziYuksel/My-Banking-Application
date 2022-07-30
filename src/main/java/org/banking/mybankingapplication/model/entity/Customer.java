@@ -16,8 +16,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 
-@ToString
-//@EqualsAndHashCode
 @Builder
 
 
@@ -46,19 +44,20 @@ public class Customer implements Serializable {
     private String address;
 
 
-    @ToString.Exclude
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name ="account_id", referencedColumnName = "id")
+    //Cascade All vs Merge ?????
+    //Mapped by doesn't work ??
+//    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY),
+//    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name ="customer_id", referencedColumnName = "id") //Create real customer_id column but cause stackoverflow when is called
     private List<Account> costumerAccounts;
 
-    @ManyToMany
-    @ToString.Exclude
-    private Set<Card> customerCards;
+    @OneToMany(mappedBy = "cardHolder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Card> customerCards;
 
 
 //    @JsonIgnore
 //    @ManyToMany
-//    @ToString.Exclude
 //    private List<Company> companies;
 
 

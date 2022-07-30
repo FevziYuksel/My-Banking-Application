@@ -12,10 +12,11 @@ import java.util.stream.Collectors;
 public class AccountMapper implements IAccountMapper{
     @Override
     public Account toEntity(AccountDTO accountDTO) {
-        Account account = new Account(
-                accountDTO.getName(),
-                accountDTO.getCurrency()
-        );
+
+        Account account = new Account();
+        account.setName(accountDTO.getName());
+        account.setCurrency(accountDTO.getCurrency());
+
         return account;
     }
 
@@ -26,16 +27,16 @@ public class AccountMapper implements IAccountMapper{
     }
 
     @Override
-    public AccountDTO toDTO(Account Account) {
+    public AccountDTO toDTO(Account account) {
         return AccountDTO.builder().
-                name(Account.getName())
-                .currency(Account.getCurrency()).build();
+                name(account.getName())
+                .currency(account.getCurrency()).build();
 
     }
 
     @Override
-    public List<AccountDTO> toDTO(List<Account> Account) {
-        return Account.stream().map(this::toDTO)
+    public List<AccountDTO> toDTO(List<Account> account) {
+        return account.stream().map(this::toDTO)
                 .collect(Collectors.toList());
     }
 }

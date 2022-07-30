@@ -40,28 +40,27 @@ public class AccountController {
 
         return ResponseEntity.status(HttpStatus.OK).body(allAccountDTO);
     }
-    @GetMapping("/findAll")
-    public ResponseEntity findAllAccounts(){
-
-        Optional<List<Account>> optionalAccounts = accountService.findAllAccount();
-
-        //optionalAccounts.orElseThrow(() -> new RuntimeException("There aren't any accounts created!"));
-
-//        optionalAccounts.ifPresentOrElse(
-//                accounts -> ResponseEntity.status(HttpStatus.OK).body(accounts),
-//                () -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("There aren't any accounts created!")
-//        );
-
-        return optionalAccounts.isPresent() ?
-                ResponseEntity.status(HttpStatus.OK).body(optionalAccounts) :
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body("There aren't any accounts created!");
-
-    }
+//    @GetMapping("/findAll")
+//    public ResponseEntity findAllAccounts(){
+//
+//        Optional<List<Account>> optionalAccounts = accountService.findAllAccount();
+//
+//        //optionalAccounts.orElseThrow(() -> new RuntimeException("There aren't any accounts created!"));
+//
+////        optionalAccounts.ifPresentOrElse(
+////                accounts -> ResponseEntity.status(HttpStatus.OK).body(accounts),
+////                () -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("There aren't any accounts created!")
+////        );
+//
+//        return optionalAccounts.isPresent() ?
+//                ResponseEntity.status(HttpStatus.OK).body(optionalAccounts) :
+//                ResponseEntity.status(HttpStatus.NOT_FOUND).body("There aren't any accounts created!");
+//
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity getAccountById(@PathVariable(name = "id") Long id){
         Account byId;
-        System.out.println(id);
         try {
             byId = accountService.getAccountById(id);
         } catch (RuntimeException exception) {  //custom exception
@@ -86,6 +85,7 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.OK).body(byId);
 
     }
+
 
 
 

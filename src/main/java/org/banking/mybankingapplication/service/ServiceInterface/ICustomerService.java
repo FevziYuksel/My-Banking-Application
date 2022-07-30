@@ -3,6 +3,7 @@ package org.banking.mybankingapplication.service.ServiceInterface;
 import org.banking.mybankingapplication.model.dto.AccountDTO;
 import org.banking.mybankingapplication.model.dto.CustomerDTO;
 import org.banking.mybankingapplication.model.entity.Customer;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -10,7 +11,9 @@ public interface ICustomerService {
 
      void addCustomer(Customer customer);
 
-     List<CustomerDTO> getAllCustomers();
+     //List<CustomerDTO> getAllCustomersDTO();
+
+     List<Customer> getAllCustomers();
 
      Customer createCustomer(CustomerDTO customerDTO);
 
@@ -20,7 +23,7 @@ public interface ICustomerService {
 
      CustomerDTO getCustomerDTOById(Long id);
 
-     Customer addAccountToCustomerById(AccountDTO accountDTO, Long id);
+     Customer addAccountToCustomerById(Long customerId, Long accountId);
 
 
 

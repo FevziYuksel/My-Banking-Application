@@ -9,25 +9,27 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 //@RequiredArgsConstructor
-@ToString
-//@EqualsAndHashCode
 @Builder
 
 @Entity
 @Table(name = "account")
 
+//Cannot be exist without customer fix it
 public class Account implements Serializable {
 
     @Id
-    //@Column(name = "customer_id") //column cannot be named
+    //@Column(name = "customer_id") //column cannot be named when inherited
     @GeneratedValue(strategy = GenerationType.IDENTITY) //cannot generate unique id
+//    private long id = UUID.randomUUID();
     private long id;
 
     private String name;
@@ -40,15 +42,27 @@ public class Account implements Serializable {
     private BigDecimal balance = BigDecimal.ZERO;
 
 
-    @ToString.Exclude
-    //   @ManyToOne
+//    @JsonIgnore //prevent stackoverflow
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name ="customer_id", referencedColumnName = "id")
+//    @JoinColumn(name ="customer_id", referencedColumnName = "id") //Doesn't work , doesn't create real customer_id and create separate id-id table
     private Customer customer;
 
-    @ToString.Exclude
-    @OneToMany
-    private Set<Transaction> transactions;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "account_cards",
+            joinColumns = {
+                    @JoinColumn(name = "account_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "card_id")
+            }
+    )
+    private List<Card> registeredCards;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name ="transaction_id", referencedColumnName = "id")
+    private List<Transaction> transactions;
 
 
 

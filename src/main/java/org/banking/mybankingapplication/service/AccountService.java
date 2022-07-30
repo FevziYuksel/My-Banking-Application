@@ -40,17 +40,17 @@ public class AccountService implements IAccountService {
         return accountMapper.toDTO(allAccount);
     }
 
-    @Override
-    public Optional<List<Account>> findAllAccount() {
-        //return Optional.empty();
-        return Optional.of(accountRepository.findAll());
-    }
-
-    @Override
-    public Optional<List<AccountDTO>> findAllAccountDTO() {
-        List<Account> all = accountRepository.findAll();
-        return Optional.of(accountMapper.toDTO(all));
-    }
+//    @Override
+//    public Optional<List<Account>> findAllAccount() {
+//        //return Optional.empty();
+//        return Optional.of(accountRepository.findAll());
+//    }
+//
+//    @Override
+//    public Optional<List<AccountDTO>> findAllAccountDTO() {
+//        List<Account> all = accountRepository.findAll();
+//        return Optional.of(accountMapper.toDTO(all));
+//    }
 
     @Override
     public Account getAccountById(Long id) {
@@ -64,7 +64,7 @@ public class AccountService implements IAccountService {
         //return Optional.empty();
         Optional<Account> byId = accountRepository.findById(id);
 
-        return byId.orElseThrow(() -> new RuntimeException("NOT FOUND !"));
+        return byId.orElseThrow(() -> new RuntimeException("NOT FOUND!"));
 
     }
 
