@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -38,11 +39,14 @@ public class Customer extends Person implements Serializable {
 
 //    @Lob
 //    @Column(columnDefinition="text")
-//@NotEmpty(message = "Cannot be empty")
+
+    @NotEmpty(message = "Cannot be empty")
     private String name;
 
 //    @Lob
 //    @Column(columnDefinition="text")
+//    @NotNull(message = "Cannot be empty")
+@NotEmpty(message = "Cannot be empty")
     private String surname;
 
     @CreationTimestamp

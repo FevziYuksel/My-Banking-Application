@@ -9,7 +9,7 @@ import org.hibernate.engine.jdbc.Size;
 import java.util.Arrays;
 import java.util.Locale;
 
-@ToString
+
 @Getter
 //@Setter //doesn't work
 
@@ -25,7 +25,6 @@ public enum Currency {
     POUND("GBP");
 
     Currency(String name) {}
-
 
     public static Currency StringToEnum(String text) {
         //Text must be exactly same
@@ -47,7 +46,6 @@ public enum Currency {
         }
         return text;
     }
-
 
 
 }

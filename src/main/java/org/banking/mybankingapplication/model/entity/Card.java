@@ -38,7 +38,7 @@ public class Card implements Serializable {
     @JsonFormat( pattern = "dd-MM-yyyy" )
     private LocalDate registerDate;
 
-
+//@ElementCollection(fetch = FetchType.EAGER)
     @ManyToMany(mappedBy = "registeredCards",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Account> cardAccounts;
 

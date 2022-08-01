@@ -51,7 +51,7 @@ public class Account implements Serializable {
 //    @JoinColumn(name ="customer_id", referencedColumnName = "id") //Doesn't work , doesn't create real customer_id and create separate id-id table
     private Customer customer;
 
-
+//@ElementCollection(fetch = FetchType.EAGER)
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "account_cards",
@@ -65,7 +65,7 @@ public class Account implements Serializable {
     private List<Card> registeredCards;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY) //transactionsDTO.getAmount().equals(BigDecimal.ZERO)
-//    @JoinColumn(name ="transaction_id", referencedColumnName = "id")
+    @JoinColumn(name ="account_id", referencedColumnName = "id")
     private List<Transactions> transactions;
 
 
