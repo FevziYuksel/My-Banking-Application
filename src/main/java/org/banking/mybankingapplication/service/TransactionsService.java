@@ -1,6 +1,7 @@
 package org.banking.mybankingapplication.service;
 
 import lombok.RequiredArgsConstructor;
+import org.banking.mybankingapplication.exception.EntityNotFoundException;
 import org.banking.mybankingapplication.model.dto.TransactionsDTO;
 import org.banking.mybankingapplication.model.entity.Transactions;
 import org.banking.mybankingapplication.model.mapper.mapstruct.TransactionMapper;
@@ -23,8 +24,9 @@ public class TransactionsService {
     public Transactions getTransactionsById(Long id){
         Optional<Transactions> byId = transactionsRespository.findById(id);
 
-        return byId.orElseThrow(() -> new RuntimeException()); //ID not found exception
+        return byId.orElseThrow(() -> new EntityNotFoundException(String.format("Transaction not found by id : %d",id))); //ID not found exception
     }
+    //Redundant
     public Transactions createTransactions(TransactionsDTO transactionsDTO){
         Transactions transactions = transactionMapper.toEntity(transactionsDTO);
         return transactionsRespository.save(transactions);

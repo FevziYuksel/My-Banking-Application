@@ -2,6 +2,7 @@ package org.banking.mybankingapplication.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.banking.mybankingapplication.exception.EntityNotFoundException;
 import org.banking.mybankingapplication.model.dto.AccountDTO;
 import org.banking.mybankingapplication.model.dto.CustomerDTO;
 import org.banking.mybankingapplication.model.entity.Account;
@@ -69,14 +70,17 @@ public class CustomerController {
         Customer checkCustomer = customerService.getCustomerByName(name);
 
         if(checkCustomer == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user is not found!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user cannot be found!");
 
         return ResponseEntity.status(HttpStatus.OK).body(checkCustomer);
     }
     //Add duplicates problem !!!!!
-    @PostMapping("/add")
+    @PostMapping("/create")
     public ResponseEntity createCustomer(@RequestBody CustomerDTO customerDTO) {
         Customer addCustomer = customerService.createNewCustomerFromDTO(customerDTO);
+
+        if(addCustomer == null)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User could not be created..");
 
         return ResponseEntity.status(HttpStatus.OK).body("The customer was added successfully");
     }
@@ -91,7 +95,8 @@ public class CustomerController {
     public ResponseEntity addNewAccountToCustomerById(@PathVariable Long customerId, @RequestBody Account account){
         //Doesn't work with ID body
         Customer customer = customerService.addNewAccountToCustomer(customerId, account);
-        //SHOULD I CHECK EXCEPTION?????????
+        if(customer == null)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("The operation could not be performed.");
         return ResponseEntity.status(HttpStatus.OK).body(customer);
     }
     @PutMapping("/{customerId}/addDTO")
@@ -100,19 +105,23 @@ public class CustomerController {
         //SHOULD I CHECK EXCEPTION?????????
         return ResponseEntity.status(HttpStatus.OK).body(customer);
     }
-//    @PutMapping("/{name}")
-//    public ResponseEntity deleteCustomerById(@PathVariable String name, @RequestBody CustomerDTO customerDTO){
-//        return ResponseEntity.status(HttpStatus.OK).body(name);
-//    }
+    @PutMapping("/{customerName}")
+    public ResponseEntity updateCustomerName(@PathVariable String customerName, @RequestBody CustomerDTO dto){
+        Customer update = customerService.updateCustomerName(customerName, dto);
+        if (update == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("User could not be updated..");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(update);
 
-    //@PutMapping -> delete customer account
+    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteCustomerById(@PathVariable("id") Long id){
 
         try {
             customerService.deleteCustomerById(id);
-        } catch (RuntimeException exception) {
+        } catch (EntityNotFoundException exception) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.status(HttpStatus.OK).body("Customer deleted successfully");

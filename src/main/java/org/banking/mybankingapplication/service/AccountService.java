@@ -1,6 +1,7 @@
 package org.banking.mybankingapplication.service;
 
 import lombok.RequiredArgsConstructor;
+import org.banking.mybankingapplication.exception.EntityNotFoundException;
 import org.banking.mybankingapplication.model.dto.AccountDTO;
 import org.banking.mybankingapplication.model.dto.TransactionsDTO;
 import org.banking.mybankingapplication.model.entity.Account;
@@ -44,23 +45,11 @@ public class AccountService  {
         return accountMapper.toDTO(allAccount);
     }
 
-//    @Override
-//    public Optional<List<Account>> findAllAccount() {
-//        //return Optional.empty();
-//        return Optional.of(accountRepository.findAll());
-//    }
-//
-//    @Override
-//    public Optional<List<AccountDTO>> findAllAccountDTO() {
-//        List<Account> all = accountRepository.findAll();
-//        return Optional.of(accountMapper.toDTO(all));
-//    }
-
 
     public Account getAccountById(Long id) {
         Optional<Account> byId = accountRepository.findById(id);
 
-        return byId.orElse(null);
+        return byId.orElseThrow(() -> new EntityNotFoundException(String.format("Account not found by id : %d",id)));
     }
 
 
@@ -69,7 +58,7 @@ public class AccountService  {
         Optional<Account> byId = accountRepository.findById(id);
 
         //Entity not found exception
-        return byId.orElseThrow(() -> new RuntimeException("NOT FOUND!"));
+        return byId.orElseThrow(() -> new EntityNotFoundException(String.format("Account not found by id : %d",id)));
 
     }
     //HTTP_POSTS
@@ -81,7 +70,7 @@ public class AccountService  {
             return accountRepository.save(account);
         }
         catch (RuntimeException e){
-            throw new RuntimeException(e.getMessage());
+            throw new EntityNotFoundException(e.getMessage());
         }
 
     }
@@ -98,7 +87,7 @@ public class AccountService  {
         //Balance change
         BigDecimal newBalance = calculateNewBalance(accountById, transactionsDTO);
 
-        transactionsService.createTransactions(transactionsDTO);
+        //transactionsService.createTransactions(transactionsDTO); //Already created when added with account
 
         accountById.setBalance(newBalance);
         return accountRepository.save(accountById);
@@ -127,7 +116,7 @@ public class AccountService  {
         //Null check
         Account accountById = findAccountById(id);
 
-        accountById = null;
+        accountById = null; //To help compiler ?
 
         accountRepository.deleteById(id);
     }
