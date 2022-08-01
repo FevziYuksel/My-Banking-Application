@@ -44,19 +44,16 @@ public class CustomerController {
         if(allCustomersDTO.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find any customer");
 
-        System.out.println(allCustomersDTO.get(0));
         return ResponseEntity.status(HttpStatus.OK).body(allCustomersDTO);
     }
 
-    @GetMapping
-    public ResponseEntity getCustomerById(@RequestParam Long id){
-
-        Customer customerById = null;
+    @GetMapping("/get/{id}")
+    public ResponseEntity getCustomerById(@PathVariable(name = "id") Long id){
 
 //        if(id.isPresent())
 //            customerById = customerService.getCustomerById(id.get());
 //
-        customerById = customerService.getCustomerById(id);
+        Customer customerById = customerService.getCustomerById(id);
 
 
         if(customerById == null)

@@ -2,6 +2,7 @@ package org.banking.mybankingapplication.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.banking.mybankingapplication.exception.DuplicateEntityException;
 import org.banking.mybankingapplication.exception.EntityNotFoundException;
 import org.banking.mybankingapplication.model.dto.AccountDTO;
 import org.banking.mybankingapplication.model.dto.CustomerDTO;
@@ -82,9 +83,9 @@ public class CustomerService  {
 
     public Customer getCustomerById(Long id){
 
-        java.util.Optional<Customer> customer = customerRepository.findById(id);
+        Optional<Customer> customer = customerRepository.findById(id);
         return  customer.orElseThrow(
-                () -> new EntityNotFoundException(String.format("Course not found by id : %d", id)));
+                () -> new EntityNotFoundException(String.format("Customer not found by id : %d", id)));
     }
 
 
@@ -94,6 +95,13 @@ public class CustomerService  {
 
         Customer addCustomer = customerMapper.toEntity(customerDTO);
         //If empty ?
+
+        customerRepository.findAll().stream().filter(
+                customer -> customer.getName().equalsIgnoreCase(customerDTO.getName()) &&
+                customer.getEmail().equalsIgnoreCase(customerDTO.getEmail())
+                ).findAny().ifPresent(s -> {
+            throw new DuplicateEntityException("Customer is already entered");
+        });
 
         try{
             return customerRepository.save(addCustomer);

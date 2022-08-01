@@ -65,6 +65,13 @@ public class CustomExceptionHandler {
         errorResponseMap.put("error_local_message", exception.getLocalizedMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponseMap);
     }
+    @ExceptionHandler(DuplicateEntityException.class)
+    public ResponseEntity<Map<String, String>> handleDuplicateEntityException(Exception exception){
+        Map<String, String> errorResponseMap = new HashMap<>();
+        errorResponseMap.put("error_message", exception.getMessage());
+        errorResponseMap.put("error_local_message", exception.getLocalizedMessage());
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(errorResponseMap);
+    }
 
 
 
