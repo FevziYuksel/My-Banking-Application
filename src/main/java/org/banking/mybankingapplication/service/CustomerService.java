@@ -105,9 +105,6 @@ public class CustomerService  {
 
     }
 
-    public Customer createNewCustomer(Customer customer) {
-        return new Customer();
-    }
 
     //HTTP_PUTS
 

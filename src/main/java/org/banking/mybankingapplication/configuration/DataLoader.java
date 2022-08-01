@@ -34,7 +34,6 @@ public class DataLoader implements CommandLineRunner {
             Customer fevzi = new Customer();
             fevzi.setName("Fevzi");
             fevzi.setSurname("Yüksel");
-            fevzi.setPassword("123");
             fevzi.setEmail("fevzi_fe@hotmail.com");
             fevzi.setPhoneNo("+905312513462");
             fevzi.setAddress("Istanbul");
@@ -42,7 +41,6 @@ public class DataLoader implements CommandLineRunner {
             Customer ahmet = new Customer();
             fevzi.setName("Ahmet");
             fevzi.setSurname("Yüksel");
-            fevzi.setPassword("8418");
             fevzi.setEmail("ahmet@hotmail.com");
             fevzi.setPhoneNo("+905312555462");
             fevzi.setAddress("Ankara");

@@ -1,11 +1,16 @@
 package org.banking.mybankingapplication.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.banking.mybankingapplication.model.entity.base.ExtendBase;
 import org.banking.mybankingapplication.model.entity.base.Person;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,13 +21,14 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+//@RequiredArgsConstructor
 @Builder
-
-
+@Validated
 @Entity
 @Table(name = "customer", schema = "public")
 
+
+//Keep most of the fields final/const
 public class Customer extends Person implements Serializable {
 
     @Id
@@ -32,18 +38,20 @@ public class Customer extends Person implements Serializable {
 
 //    @Lob
 //    @Column(columnDefinition="text")
+//@NotEmpty(message = "Cannot be empty")
     private String name;
 
 //    @Lob
 //    @Column(columnDefinition="text")
     private String surname;
 
-//    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDate registerDate = LocalDate.now();
+    @CreationTimestamp
+    @JsonFormat( pattern = "dd-MM-yyyy" )
+    private LocalDate registerDate;
 
-    private String password;
-
+    @Email(message = "Email format is not correct!")
     private String email;
+
 
     private String phoneNo;
 

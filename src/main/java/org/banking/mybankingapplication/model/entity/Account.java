@@ -1,17 +1,17 @@
 package org.banking.mybankingapplication.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.banking.mybankingapplication.model.entity.base.ExtendBase;
 import org.banking.mybankingapplication.model.enums.Currency;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,7 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 //@RequiredArgsConstructor
 @Builder
-
+@Validated
 @Entity
 @Table(name = "account")
 
@@ -27,21 +27,25 @@ import java.util.UUID;
 public class Account implements Serializable {
 
     @Id
-    //@Column(name = "customer_id") //column cannot be named when inherited
+    //@Column(name = "account_id",updatable = false,nullable = false) //column cannot be named when inherited
     @GeneratedValue(strategy = GenerationType.IDENTITY) //cannot generate unique id
 //    private long id = UUID.randomUUID();
     private long id;
 
     private String name;
 
-    private LocalDate registerDate = LocalDate.now();
+
+    @CreationTimestamp
+    @JsonFormat( pattern = "dd-MM-yyyy" )
+    private LocalDate registerDate;
 
     @Enumerated(EnumType.STRING)
     private Currency currency;
 
+    @Builder.Default //Default if null lombok
     private BigDecimal balance = BigDecimal.ZERO;
 
-
+    //@NotNull(message = "")
     @JsonIgnore //prevent stackoverflow
     @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name ="customer_id", referencedColumnName = "id") //Doesn't work , doesn't create real customer_id and create separate id-id table
@@ -60,9 +64,9 @@ public class Account implements Serializable {
     )
     private List<Card> registeredCards;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY) //transactionsDTO.getAmount().equals(BigDecimal.ZERO)
 //    @JoinColumn(name ="transaction_id", referencedColumnName = "id")
-    private List<Transaction> transactions;
+    private List<Transactions> transactions;
 
 
 

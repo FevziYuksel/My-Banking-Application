@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 
-
 public class AccountDTO {
 
 
@@ -18,6 +17,8 @@ public class AccountDTO {
 
     @Enumerated(EnumType.STRING)
     private Currency currency;
+
+    private BigDecimal balance;
 
 
 }

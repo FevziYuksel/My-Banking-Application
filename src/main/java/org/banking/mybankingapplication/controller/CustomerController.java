@@ -89,6 +89,7 @@ public class CustomerController {
     }
     @PutMapping("/{customerId}/add/")
     public ResponseEntity addNewAccountToCustomerById(@PathVariable Long customerId, @RequestBody Account account){
+        //Doesn't work with ID body
         Customer customer = customerService.addNewAccountToCustomer(customerId, account);
         //SHOULD I CHECK EXCEPTION?????????
         return ResponseEntity.status(HttpStatus.OK).body(customer);
@@ -99,10 +100,10 @@ public class CustomerController {
         //SHOULD I CHECK EXCEPTION?????????
         return ResponseEntity.status(HttpStatus.OK).body(customer);
     }
-    @PutMapping("/{name}")
-    public ResponseEntity deleteCustomerById(@PathVariable String name, @RequestBody CustomerDTO customerDTO){
-        return ResponseEntity.status(HttpStatus.OK).body(name);
-    }
+//    @PutMapping("/{name}")
+//    public ResponseEntity deleteCustomerById(@PathVariable String name, @RequestBody CustomerDTO customerDTO){
+//        return ResponseEntity.status(HttpStatus.OK).body(name);
+//    }
 
     //@PutMapping -> delete customer account
 
