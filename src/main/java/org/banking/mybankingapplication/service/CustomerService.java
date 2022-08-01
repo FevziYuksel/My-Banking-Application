@@ -6,8 +6,8 @@ import org.banking.mybankingapplication.model.dto.AccountDTO;
 import org.banking.mybankingapplication.model.dto.CustomerDTO;
 import org.banking.mybankingapplication.model.entity.Account;
 import org.banking.mybankingapplication.model.entity.Customer;
-import org.banking.mybankingapplication.model.mapper.AccountMapper;
-import org.banking.mybankingapplication.model.mapper.CustomerMapper;
+import org.banking.mybankingapplication.model.mapper.mapstruct.AccountMapper;
+import org.banking.mybankingapplication.model.mapper.mapstruct.CustomerMapper;
 import org.banking.mybankingapplication.repository.CustomerRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,11 +25,11 @@ public class CustomerService  {
 
     private final CustomerRepository customerRepository;
 
-    private final CustomerMapper customerMapper;
+    private final AccountService accountService;
 
     private final AccountMapper accountMapper;
+    private final CustomerMapper customerMapper;
 
-    private final AccountService accountService;
 
 
     //HTTP_GETS
@@ -40,10 +40,23 @@ public class CustomerService  {
 
 
         //Send custom response ??
-        if(customers.isEmpty()){
-            //throw new RuntimeException("");
-        }
+//        if(customers.isEmpty()){
+//            throw new RuntimeException("Not Found");
+//        }
+
         return customers;
+    }
+    public List<CustomerDTO> getAllCustomersDTO(){
+
+        List<Customer> customers = customerRepository.findAll();
+        //List<CustomerDTO> customerDTOs = customerMapper.toDTO(customers);
+
+
+        //Send custom response ??
+        if(customers.isEmpty()){
+            throw new RuntimeException("Not Found");
+        }
+        return  customerMapper.toDTO(customers);
     }
 
     public Customer getCustomerByName(String name){
@@ -62,6 +75,7 @@ public class CustomerService  {
 
         //Customer customer1 = customer.orElseThrow(() -> new RuntimeException("Cannot find the customer with this id"));
 
+        //return customerMapper.toDTO(customer.get());
         return customerMapper.toDTO(customer.get());
     }
 

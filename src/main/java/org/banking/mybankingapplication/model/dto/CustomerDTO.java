@@ -1,12 +1,11 @@
 package org.banking.mybankingapplication.model.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@Builder
+@ToString
+
 public class CustomerDTO {
 
     private String name;
@@ -20,6 +19,5 @@ public class CustomerDTO {
     private String phoneNo;
 
     private String address;
-
 
 }

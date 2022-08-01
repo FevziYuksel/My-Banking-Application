@@ -3,6 +3,7 @@ package org.banking.mybankingapplication.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.banking.mybankingapplication.model.entity.base.ExtendBase;
+import org.banking.mybankingapplication.model.entity.base.Person;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,7 +23,7 @@ import java.util.Set;
 @Entity
 @Table(name = "customer", schema = "public")
 
-public class Customer implements Serializable {
+public class Customer extends Person implements Serializable {
 
     @Id
     //@Column(name = "customer_id") //column cannot be named

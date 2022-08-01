@@ -3,7 +3,8 @@ package org.banking.mybankingapplication.service;
 import lombok.RequiredArgsConstructor;
 import org.banking.mybankingapplication.model.dto.AccountDTO;
 import org.banking.mybankingapplication.model.entity.Account;
-import org.banking.mybankingapplication.model.mapper.AccountMapper;
+
+import org.banking.mybankingapplication.model.mapper.mapstruct.AccountMapper;
 import org.banking.mybankingapplication.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 

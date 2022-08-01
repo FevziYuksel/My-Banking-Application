@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -35,6 +35,16 @@ public class CustomerController {
 
 
         return ResponseEntity.status(HttpStatus.OK).body(customers);
+    }
+    @GetMapping("/dto")
+    public ResponseEntity getAllCustomersDTO(){
+
+        List<CustomerDTO> allCustomersDTO = customerService.getAllCustomersDTO();
+        if(allCustomersDTO.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find any customer");
+
+        System.out.println(allCustomersDTO.get(0));
+        return ResponseEntity.status(HttpStatus.OK).body(allCustomersDTO);
     }
 
     @GetMapping
