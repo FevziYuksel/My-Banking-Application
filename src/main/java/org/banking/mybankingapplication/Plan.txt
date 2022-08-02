@@ -8,8 +8,9 @@
 8 Join columns vs default separate table
 9 mapstruct solved :D
 10 validate creationtime , name etc
-11
-
+11 netflix oss spring cloud microservice
+zipkin histrix ?
+12 Docker
 
 
 Constructor vs default variable

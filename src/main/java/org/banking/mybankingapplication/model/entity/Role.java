@@ -1,17 +1,12 @@
 package org.banking.mybankingapplication.model.entity;
 
-import lombok.*;
-import org.banking.mybankingapplication.model.entity.base.ExtendBase;
+import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Set;
+public enum Role implements GrantedAuthority {
+    ROLE_ADMIN,
+    ROLE_CLIENT;
 
-
-
-
-public class Role {
-
-
+    public String getAuthority() {
+        return name();
+    }
 }

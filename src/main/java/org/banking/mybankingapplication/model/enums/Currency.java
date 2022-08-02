@@ -16,7 +16,7 @@ import java.util.Locale;
 public enum Currency {
 
     /**
-     * Change fields to String ??
+     * Integer type can be parsed from json
      * */
 
     DOLLAR("USD"),

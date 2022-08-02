@@ -7,13 +7,14 @@ import org.banking.mybankingapplication.model.enums.TransactionType;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 
 @Getter
 @Setter
 
-public class TransactionsDTO {
+public class TransactionsDTO implements Serializable {
 
 
     private BigDecimal amount ;

@@ -52,6 +52,7 @@ public class Account implements Serializable {
     private Customer customer;
 
 //@ElementCollection(fetch = FetchType.EAGER)
+//    https://stackoverflow.com/questions/36803306/should-jointable-be-specified-in-both-sides-of-a-manytomany-relationship
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "account_cards",

@@ -96,12 +96,18 @@ public class CustomerService  {
         Customer addCustomer = customerMapper.toEntity(customerDTO);
         //If empty ?
 
-        customerRepository.findAll().stream().filter(
-                customer -> customer.getName().equalsIgnoreCase(customerDTO.getName()) &&
-                customer.getEmail().equalsIgnoreCase(customerDTO.getEmail())
-                ).findAny().ifPresent(s -> {
-            throw new DuplicateEntityException("Customer is already entered");
-        });
+//        customerRepository.findAll().stream().filter(
+//                customer -> customer.getName().equalsIgnoreCase(customerDTO.getName()) &&
+//                customer.getEmail().equalsIgnoreCase(customerDTO.getEmail())
+//                ).findAny().ifPresent( s -> { //There has to be parameter
+//            throw new DuplicateEntityException("Customer is already entered");
+//        });
+
+        customerRepository.findCustomerByNameAndEmail(
+                customerDTO.getName(),customerDTO.getEmail()).ifPresent(
+                s-> {
+                    throw new DuplicateEntityException("Customer is already entered");
+                });
 
         try{
             return customerRepository.save(addCustomer);
@@ -111,7 +117,6 @@ public class CustomerService  {
         }
 
     }
-
 
     //HTTP_PUTS
 

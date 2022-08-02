@@ -8,6 +8,7 @@ import org.banking.mybankingapplication.model.enums.CardType;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 
-public class CardDTO {
+public class CardDTO implements Serializable {
 
     private String cardNo;
 
