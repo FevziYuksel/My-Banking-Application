@@ -8,31 +8,19 @@ import org.banking.mybankingapplication.model.dto.CustomerDTO;
 import org.banking.mybankingapplication.model.entity.Customer;
 import org.banking.mybankingapplication.model.mapper.mapstruct.CustomerMapper;
 import org.banking.mybankingapplication.repository.CustomerRepository;
-import org.junit.Assert;
 import org.junit.Ignore;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.InvocationInterceptor;
-import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.invocation.Invocation;
-import org.mockito.invocation.Location;
-import org.mockito.invocation.StubInfo;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.Method;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 
@@ -48,49 +36,26 @@ class CustomerServiceTest {
     @InjectMocks
     CustomerService customerService;
 
-//        @BeforeAll ????
-//    public void setup() {
-//        // init
-//      // testCourse = new Course(2L, "Math");
-//
-//    }
-//
-//    @BeforeEach
-//    public void setup() {
-//
-//
-//
-//        Passenger expectedPassenger = new Passenger(1, "Passenger1", "Lastname1", "Male", 25, "05554443322", "passenger1@mail.com");
-//
-//        // stub - when
-//        Mockito.when(passengerRepository.findById(1)).thenReturn(Optional.of(expectedPassenger));
-//    }
-    private List<Customer> getSampleTestCustomers() {
-    List<Customer> sampleList = new ArrayList<>();
-    Customer customer = new Customer(1L,"Fevzi","Yüksel", LocalDate.now(),"fevzi@hotmail.com","+905312513462","Istanbul",null);
-    Customer customer2 = new Customer(2L,"Ahmet","Yılmaz", LocalDate.now(),"ahmet@hotmail.com","+905312555555","Ankara",null);
-    Customer customer3 = new Customer(3L,"Mehmet","Soylu", LocalDate.now(),"mehmet@hotmail.com","+905312513333","Izmir",null);
-    sampleList.add(customer);
-    sampleList.add(customer2);
-    sampleList.add(customer3);
-    return sampleList;
-}
-
-    private Comparator<Customer> getCustomerComparator() {
-        return (o1, o2) -> {
-            if (o1.getId() - o2.getId() < 0)
-                return -1;
-            if (o1.getId() - o2.getId() == 0)
-                return 0;
-            return 1;
-        };
+    @BeforeAll //How to work ???
+    static void setup() {
+        List<Customer> sampleList = new ArrayList<>();
+        Customer customer = new Customer(1L,"Fevzi","Yüksel", new Date(),"fevzi@hotmail.com","+905312513462","Istanbul",null);
+        Customer customer2 = new Customer(2L,"Ahmet","Yılmaz", new Date(),"ahmet@hotmail.com","+905312555555","Ankara",null);
+        Customer customer3 = new Customer(3L,"Mehmet","Soylu", new Date(),"mehmet@hotmail.com","+905312513333","Izmir",null);
+        sampleList.add(customer);
+        sampleList.add(customer2);
+        sampleList.add(customer3);
     }
+
+
+
 
     @Ignore
     @Test
     void getAllCustomers() {
         // init step
         List<Customer> expCustomerList = getSampleTestCustomers();
+
 
         // stub - when step
         when(customerRepository.findAll()).thenReturn(expCustomerList); //
@@ -157,8 +122,6 @@ class CustomerServiceTest {
         System.out.println("Second : " + expCustomerList);
 
     }
-
-
     @Test
     void getCustomerById_successful() {
         // init step
@@ -224,8 +187,6 @@ class CustomerServiceTest {
 
 
     }
-
-
     @Test
     void createNewCustomer_successful(){
         //init step
@@ -283,7 +244,6 @@ class CustomerServiceTest {
         );
 
     }
-
     @Test //How to test dublicates ?? I'm not how it passed :D
     void createNewCustomer_duplicate(){
         //init step
@@ -308,31 +268,64 @@ class CustomerServiceTest {
 
     }
 
-    @Test
+    @Test //Illogical error : works without setting expectedEntity ??
     void updateCustomerName() {
         // init step
-        Customer expCustomer = getSampleTestCustomers().get(0);
-        Optional<Customer> optExpCustomer = Optional.of(expCustomer);
+        Customer expectedCustomer = getSampleTestCustomers().get(0);
+        Optional<Customer> optExpCustomer = Optional.of(expectedCustomer);
+        Customer updatedCustomer = new Customer(1L,"Evren","Es", new Date(),"fevzi@hotmail.com","+905312513462","Istanbul",null);
 
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setName("Evren");
         customerDTO.setSurname("Es");
 
 
+
         // stub - when step
 //        given(customerRepository.findByNameContainingIgnoreCase(expCustomer.getName())).willReturn(Optional.of(expCustomer)); //Alternative of when then
-        when(customerRepository.findByNameContainingIgnoreCase(expCustomer.getName())).thenReturn(optExpCustomer);
-        when(customerRepository.save(any())).thenReturn(expCustomer);
-        Customer actualCustomer = customerService.updateCustomerName(expCustomer.getName(), customerDTO);
+        when(customerRepository.findByNameContainingIgnoreCase(expectedCustomer.getName())).thenReturn(optExpCustomer);
+        when(customerRepository.save(any())).thenReturn(updatedCustomer);
+        Customer actualCustomer = customerService.updateCustomerName(expectedCustomer.getName(), customerDTO);
 
 
         // then - validate step
         assertAll(
-                () -> assertEquals(expCustomer.getId(), actualCustomer.getId()),
-                () ->assertEquals(expCustomer.getName(), actualCustomer.getName()),
-                () ->assertEquals(expCustomer.getSurname(), actualCustomer.getSurname()),
-                () ->assertEquals(expCustomer.getEmail(), actualCustomer.getEmail()),
-                () ->assertEquals(expCustomer.getAddress(), actualCustomer.getAddress())
+                () -> assertEquals(updatedCustomer.getId(), actualCustomer.getId()),
+                () ->assertEquals(updatedCustomer.getName(), actualCustomer.getName()),
+                () ->assertEquals(updatedCustomer.getSurname(), actualCustomer.getSurname()),
+                () ->assertEquals(updatedCustomer.getEmail(), actualCustomer.getEmail()),
+                () ->assertEquals(updatedCustomer.getAddress(), actualCustomer.getAddress())
+        );
+    }
+    @Test //Illogical error : works without setting fields of expectedEntity ??
+    void updateCustomerNameByBody() {
+        // init step
+        Customer expCustomer = getSampleTestCustomers().get(0);
+        Optional<Customer> optExpCustomer = Optional.of(expCustomer);
+        Customer requestCustomer = new Customer(1L,"Orhan","Çakmak", new Date(),"fevzi@hotmail.com","+905312513462","Istanbul",null);
+        Customer updatedCustomer = new Customer(1L,"Orhan","Çakmak", new Date(),"fevzi@hotmail.com","+905312513462","Istanbul",null);
+
+
+        // stub - when step
+//        given(customerRepository.findByNameContainingIgnoreCase(expCustomer.getName())).willReturn(Optional.of(expCustomer)); //Alternative of when then
+
+        when(customerRepository.findById(requestCustomer.getId())).thenReturn(optExpCustomer);
+        when(customerRepository.save(any())).thenReturn(updatedCustomer);
+
+        Customer actualCustomer = customerService.updateCustomerByBody(requestCustomer);
+
+
+        // then - validate step
+        verify(customerRepository,times(1)).findById(requestCustomer.getId());
+        verify(customerRepository,times(1)).save(any());
+
+
+        assertAll(
+                () -> assertEquals(updatedCustomer.getId(), actualCustomer.getId()),
+                () ->assertEquals(updatedCustomer.getName(), actualCustomer.getName()),
+                () ->assertEquals(updatedCustomer.getSurname(), actualCustomer.getSurname()),
+                () ->assertEquals(updatedCustomer.getEmail(), actualCustomer.getEmail()),
+                () ->assertEquals(updatedCustomer.getAddress(), actualCustomer.getAddress())
         );
     }
 
@@ -354,6 +347,8 @@ class CustomerServiceTest {
     }
 
     /**Failed tests Incompatible localTime to Json conversion of Google Json object package
+     * All test are passed
+     */
     @Test
     void getCustomerByName_successful_Json() {
 
@@ -390,8 +385,27 @@ class CustomerServiceTest {
         verify(customerRepository,times(1)).findAll();
 
     }
-    */
 
+    private List<Customer> getSampleTestCustomers() {
+        List<Customer> sampleList = new ArrayList<>();
+        Customer customer = new Customer(1L,"Fevzi","Yüksel", new Date(),"fevzi@hotmail.com","+905312513462","Istanbul",null);
+        Customer customer2 = new Customer(2L,"Ahmet","Yılmaz", new Date(),"ahmet@hotmail.com","+905312555555","Ankara",null);
+        Customer customer3 = new Customer(3L,"Mehmet","Soylu", new Date(),"mehmet@hotmail.com","+905312513333","Izmir",null);
+        sampleList.add(customer);
+        sampleList.add(customer2);
+        sampleList.add(customer3);
+        return sampleList;
+    }
+
+    private Comparator<Customer> getCustomerComparator() {
+        return (o1, o2) -> {
+            if (o1.getId() - o2.getId() < 0)
+                return -1;
+            if (o1.getId() - o2.getId() == 0)
+                return 0;
+            return 1;
+        };
+    }
 
 }
 class ObjectExtensions {
