@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -52,7 +53,7 @@ public class Customer extends Person implements Serializable {
 
     @CreationTimestamp
     @JsonFormat( pattern = "dd-MM-yyyy" )
-    private LocalDate registerDate;
+    private Date registerDate;
 
     @Email(message = "Email format is not correct!")
     private String email;

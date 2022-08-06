@@ -13,6 +13,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -40,7 +41,7 @@ public class Account implements Serializable {
 
     @CreationTimestamp
     @JsonFormat( pattern = "dd-MM-yyyy" )
-    private LocalDate registerDate;
+    private Date registerDate;
 
     @Enumerated(EnumType.STRING)
     private Currency currency;

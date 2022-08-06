@@ -11,6 +11,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -30,7 +32,7 @@ public class Transactions implements Serializable {
 
     @CreationTimestamp
     @JsonFormat( pattern = "dd-MM-yyyy" )
-    private LocalDate transactionDate;
+    private Date transactionDate;
 
     private BigDecimal amount;
 

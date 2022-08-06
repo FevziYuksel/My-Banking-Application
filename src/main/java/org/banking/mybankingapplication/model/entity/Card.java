@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +37,7 @@ public class Card implements Serializable {
     private CardType cardType;
     @CreationTimestamp
     @JsonFormat( pattern = "dd-MM-yyyy" )
-    private LocalDate registerDate;
+    private Date registerDate;
 
 //@ElementCollection(fetch = FetchType.EAGER)
     @ManyToMany(mappedBy = "registeredCards",cascade = CascadeType.ALL,fetch = FetchType.LAZY)

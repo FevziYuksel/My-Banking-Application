@@ -23,7 +23,7 @@ import java.util.Optional;
 @Service
 
 //Turn return types to DTO /CustomResponseClass
-public class CustomerService  {
+public class CustomerService {
 
 
     private final CustomerRepository customerRepository;
@@ -32,60 +32,55 @@ public class CustomerService  {
     private final CustomerMapper customerMapper;
 
 
-
     //HTTP_GETS
-    public List<Customer> getAllCustomers(){
+    public List<Customer> getAllCustomers() {
 
         List<Customer> customers = customerRepository.findAll();
         //List<CustomerDTO> customerDTOs = customerMapper.toDTO(customers);
 
-        if(customers.isEmpty()){
+        if (customers.isEmpty()) {
 
             throw new EntityNotFoundException("No customer found");
         }
 
         return customers;
     }
-    public List<CustomerDTO> getAllCustomersDTO(){
+
+    public List<CustomerDTO> getAllCustomersDTO() {
 
         List<Customer> customers = customerRepository.findAll();
 
 
-        if(customers.isEmpty()){
+        if (customers.isEmpty()) {
 
             throw new EntityNotFoundException("No customer found");
         }
-        return  customerMapper.toDTO(customers);
+        return customerMapper.toDTO(customers);
     }
 
-    public Customer getCustomerByName(String name){
-
+    public Customer getCustomerByName(String name) {
 
 
         java.util.Optional<Customer> customer = customerRepository.findByNameContainingIgnoreCase(name); //call from user service
 
-        return customer.orElseThrow(
-                () -> new EntityNotFoundException(String.format("Customer named %s found  ",name))
-        );
+        return customer.orElseThrow(() -> new EntityNotFoundException(String.format("Customer named %s found  ", name)));
 
     }
 
-    public CustomerDTO getCustomerDTOById(Long id){
+    public CustomerDTO getCustomerDTOById(Long id) {
 
         Optional<Customer> customer = customerRepository.findById(id);
 
-        Customer customer1 = customer.orElseThrow(
-                () -> new EntityNotFoundException(String.format("Customer not found by id : %d",id)));
+        Customer customer1 = customer.orElseThrow(() -> new EntityNotFoundException(String.format("Customer not found by id : %d", id)));
 
         return customerMapper.toDTO(customer1);
     }
 
 
-    public Customer getCustomerById(Long id){
+    public Customer getCustomerById(Long id) {
 
         Optional<Customer> customer = customerRepository.findById(id);
-        return  customer.orElseThrow(
-                () -> new EntityNotFoundException(String.format("Customer not found by id : %d", id)));
+        return customer.orElseThrow(() -> new EntityNotFoundException(String.format("Customer not found by id : %d", id)));
     }
 
 
@@ -94,16 +89,13 @@ public class CustomerService  {
     public Customer createNewCustomer(Customer customer) {
 
 
-        customerRepository.findCustomerByNameAndEmail(
-                customer.getName(),customer.getEmail()).ifPresent(
-                s-> {
-                    throw new DuplicateEntityException("Customer is already entered");
-                });
+        customerRepository.findCustomerByNameAndEmail(customer.getName(), customer.getEmail()).ifPresent(s -> {
+            throw new DuplicateEntityException("Customer is already entered");
+        });
 
-        try{
+        try {
             return customerRepository.save(customer);
-        }
-        catch (RuntimeException e){
+        } catch (RuntimeException e) {
             throw new EntityNotFoundException(e.getMessage());
         }
 
@@ -121,16 +113,13 @@ public class CustomerService  {
 //            throw new DuplicateEntityException("Customer is already entered");
 //        });
 
-        customerRepository.findCustomerByNameAndEmail(
-                customerDTO.getName(),customerDTO.getEmail()).ifPresent(
-                s-> {
-                    throw new DuplicateEntityException("Customer is already entered");
-                });
+        customerRepository.findCustomerByNameAndEmail(customerDTO.getName(), customerDTO.getEmail()).ifPresent(s -> {
+            throw new DuplicateEntityException("Customer is already entered");
+        });
 
-        try{
+        try {
             return customerRepository.save(addCustomer);
-        }
-        catch (RuntimeException e){
+        } catch (RuntimeException e) {
             throw new EntityNotFoundException(e.getMessage());
         }
 
@@ -153,8 +142,8 @@ public class CustomerService  {
         return customerRepository.save(customer);
 
 
-
     }
+
     public Customer addNewAccountToCustomer(Long customerId, Account account) {
 
         Customer customer = this.getCustomerById(customerId);
@@ -166,6 +155,7 @@ public class CustomerService  {
         return customerRepository.save(customer);
 
     }
+
     public Customer addNewAccountDTOToCustomer(Long customerId, AccountDTO dto) {
 
         Customer customer = this.getCustomerById(customerId);
@@ -179,10 +169,11 @@ public class CustomerService  {
         return customerRepository.save(customer);
 
     }
+
     public Customer updateCustomerName(String customerName, CustomerDTO dto) {
 
         Optional<Customer> customer = customerRepository.findByNameContainingIgnoreCase(customerName);
-        if(customer.isEmpty())  //!customer.isPresent() == customer.isEmpty()
+        if (customer.isEmpty())  //!customer.isPresent() == customer.isEmpty()
             throw new EntityNotFoundException("Customer name : " + customerName);
         Customer customer1 = customer.get();
         if (!StringUtils.isEmpty(dto.getName())) {
@@ -194,10 +185,45 @@ public class CustomerService  {
         return customerRepository.save(customer1);
     }
 
+    //    public Customer updateCustomerById(Long id, CustomerDTO dto) {
+//
+//        Customer customerById = getCustomerById(id);
+//
+//        if (!StringUtils.isEmpty(dto.getName())) {
+//            customerById.setName(dto.getName());
+//        }
+//        if (!StringUtils.isEmpty(dto.getSurname())) {
+//            customerById.setSurname(dto.getSurname());
+//        }
+//        return createNewCustomer(customerById);
+//    }
+//    public Customer updateCustomerById(Long id, CustomerDTO dto) {
+//
+//        Optional<Customer> customer = customerRepository.findById(id);
+//        if(customer.isEmpty())  //!customer.isPresent() == customer.isEmpty()
+//            throw new EntityNotFoundException("Customer name : " + id);
+//        Customer customerById = customer.get();
+//
+//        if (!StringUtils.isEmpty(dto.getName())) {
+//            customerById.setName(dto.getName());
+//        }
+//        if (!StringUtils.isEmpty(dto.getSurname())) {
+//            customerById.setSurname(dto.getSurname());
+//        }
+//        return customerRepository.save(customerById);
+//    }
+    public Customer updateCustomerByBody(Customer requestCustomer) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(requestCustomer.getId());
+        Customer updateCustomer = optionalCustomer.orElseThrow(() -> new EntityNotFoundException(""));
+        return customerRepository.save(requestCustomer);
+
+
+    }
+
 
     //HTTP_DELETES
 
-    public void deleteCustomerById( Long id){
+    public void deleteCustomerById(Long id) {
         getCustomerById(id); //In order to check id record
         customerRepository.deleteById(id);
     }

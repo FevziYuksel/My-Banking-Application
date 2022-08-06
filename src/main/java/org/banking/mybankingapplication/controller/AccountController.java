@@ -20,7 +20,7 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity getAllAccounts() {
 
         List<Account> allAccount = accountService.getAllAccount();
@@ -28,7 +28,7 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(allAccount);
     }
 
-    @GetMapping(path = "/all")
+    @GetMapping(path = "/allDto")
     public ResponseEntity getAllAccountsDTO() {
 
         List<AccountDTO> allAccountDTO = accountService.getAllAccountDTO();
@@ -70,7 +70,8 @@ public class AccountController {
     }
 
     //Doesn't work
-    @GetMapping("/?id= {id}")
+//    @GetMapping("?id={id}")
+    @GetMapping
     public ResponseEntity findAccountById(@RequestParam("id") Long id) throws RuntimeException {
         //Delay exception
         //Try catch block necessity
