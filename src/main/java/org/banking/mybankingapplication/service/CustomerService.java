@@ -91,6 +91,24 @@ public class CustomerService  {
 
     //HTTP_POSTS
 
+    public Customer createNewCustomer(Customer customer) {
+
+
+        customerRepository.findCustomerByNameAndEmail(
+                customer.getName(),customer.getEmail()).ifPresent(
+                s-> {
+                    throw new DuplicateEntityException("Customer is already entered");
+                });
+
+        try{
+            return customerRepository.save(customer);
+        }
+        catch (RuntimeException e){
+            throw new EntityNotFoundException(e.getMessage());
+        }
+
+    }
+
     public Customer createNewCustomerFromDTO(CustomerDTO customerDTO) {
 
         Customer addCustomer = customerMapper.toEntity(customerDTO);

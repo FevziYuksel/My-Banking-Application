@@ -30,12 +30,13 @@ import java.util.Set;
 
 
 //Keep most of the fields final/const
+//Keep field types as Object/Class to make them nullable.
 public class Customer extends Person implements Serializable {
 
     @Id
     //@Column(name = "customer_id") //column cannot be named
     @GeneratedValue(strategy = GenerationType.IDENTITY) //cannot generate unique id
-    private long id;
+    private Long id;
 
 //    @Lob
 //    @Column(columnDefinition="text")
@@ -46,7 +47,7 @@ public class Customer extends Person implements Serializable {
 //    @Lob
 //    @Column(columnDefinition="text")
 //    @NotNull(message = "Cannot be empty")
-@NotEmpty(message = "Cannot be empty")
+    @NotEmpty(message = "Cannot be empty")
     private String surname;
 
     @CreationTimestamp
@@ -64,9 +65,9 @@ public class Customer extends Person implements Serializable {
 
     //Cascade All -> Delete customer delete account
     //Mapped by doesn't work ??
-//    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY),
-//    @JsonIgnore
-    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    //    @JsonIgnore
+//    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
     @JoinColumn(name ="customer_id", referencedColumnName = "id") //Create real customer_id column but cause stackoverflow when is called
     private List<Account> costumerAccounts;
 

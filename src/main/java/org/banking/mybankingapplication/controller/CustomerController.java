@@ -81,6 +81,15 @@ public class CustomerController {
 
         return ResponseEntity.status(HttpStatus.OK).body("The customer was added successfully");
     }
+    @PostMapping("/create2")
+    public ResponseEntity createCustomer(@RequestBody Customer customer) {
+        Customer addCustomer = customerService.createNewCustomer(customer);
+
+        if(addCustomer == null)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User could not be created..");
+
+        return ResponseEntity.status(HttpStatus.OK).body("The customer was added successfully");
+    }
 
     @PutMapping("/{customerId}/add/{accountId}")
     public ResponseEntity addAccountToCustomerById(@PathVariable Long customerId, @PathVariable Long accountId){
@@ -88,7 +97,7 @@ public class CustomerController {
         //SHOULD I CHECK EXCEPTION?????????
         return ResponseEntity.status(HttpStatus.OK).body(customer);
     }
-    @PutMapping("/{customerId}/add/")
+    @PutMapping("/{customerId}/addEntity")
     public ResponseEntity addNewAccountToCustomerById(@PathVariable Long customerId, @RequestBody Account account){
         //Doesn't work with ID body
         Customer customer = customerService.addNewAccountToCustomer(customerId, account);

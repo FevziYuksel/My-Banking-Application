@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.banking.mybankingapplication.model.enums.Currency;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
@@ -12,6 +14,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Random;
 
 @Getter
 @Setter
@@ -47,8 +50,11 @@ public class Account implements Serializable {
 
     //@NotNull(message = "")
     @JsonIgnore //prevent stackoverflow
+
+//    @ManyToOne
+//    @Fetch(value = FetchMode.JOIN)
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name ="customer_id", referencedColumnName = "id") //Doesn't work , doesn't create real customer_id and create separate id-id table
+//    @JoinColumn(name ="accoutnt_id", referencedColumnName = "id") //Doesn't work , doesn't create real customer_id and create separate id-id table
     private Customer customer;
 
 //@ElementCollection(fetch = FetchType.EAGER)
@@ -68,7 +74,6 @@ public class Account implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY) //transactionsDTO.getAmount().equals(BigDecimal.ZERO)
     @JoinColumn(name ="account_id", referencedColumnName = "id")
     private List<Transactions> transactions;
-
 
 
 }
