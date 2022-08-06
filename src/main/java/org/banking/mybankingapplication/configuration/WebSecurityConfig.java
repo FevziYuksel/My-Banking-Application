@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -36,6 +37,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/users/signin").permitAll()
                 .antMatchers("/users/signup").permitAll()
+                .antMatchers("/v2/api-docs").permitAll()
+                .antMatchers("/configuration/ui").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/configuration/security").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-ui/*").permitAll()
+                .antMatchers("/webjars/**").permitAll()
+                .antMatchers("/v2/**").permitAll()
                 // Authorize any endpoint by a role
 //                .antMatchers("/users/delete/**").hasRole("ROLE_ADMIN")
                 // Disallow everything else..
@@ -44,7 +53,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // Apply JWT
         http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
 
+
+
+
     }
+
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers("/v2/api-docs",
+////                swagger2 base urls
+//                "/configuration/ui",
+//                "/swagger-resources/**",
+//                "/configuration/security",
+//                "/swagger-ui.html",
+//                "/webjars/**",
+////                swagger3 base urls
+//                "/swagger-ui/**",
+//                "/javainuse-openapi/**");
+////
+////        web.ignoring().antMatchers("/v2/api-docs/**");
+////        web.ignoring().antMatchers("/swagger.json");
+////        web.ignoring().antMatchers("/swagger-ui.html");
+////        web.ignoring().antMatchers("/swagger-resources/**");
+////        web.ignoring().antMatchers("/webjars/**");
+//
+//
+////        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**");
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
