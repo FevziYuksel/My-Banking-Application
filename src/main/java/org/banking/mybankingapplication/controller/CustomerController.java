@@ -19,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/customer")
+//@RequestMapping(value = "/v1/customer", produces = { "application/json;**charset=UTF-8**" })
 
 public class CustomerController {
 
@@ -69,7 +70,7 @@ public class CustomerController {
         if(checkCustomer == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user cannot be found!");
 
-        return ResponseEntity.status(HttpStatus.OK).body(checkCustomer);
+        return ResponseEntity.ok(checkCustomer);
     }
     //Add duplicates problem !!!!!
     @PostMapping("/create")
@@ -78,8 +79,8 @@ public class CustomerController {
 
         if(addCustomer == null)
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User could not be created..");
-
-        return ResponseEntity.status(HttpStatus.OK).body("The customer was added successfully");
+//        return ResponseEntity.created();
+        return ResponseEntity.status(HttpStatus.CREATED).body(addCustomer);
     }
     @PostMapping("/create2")
     public ResponseEntity createCustomer(@RequestBody Customer customer) {
@@ -88,7 +89,8 @@ public class CustomerController {
         if(addCustomer == null)
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User could not be created..");
 
-        return ResponseEntity.status(HttpStatus.OK).body("The customer was added successfully");
+//        return ResponseEntity.status(HttpStatus.CREATED).body("The customer was added successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(addCustomer);
     }
 
     @PutMapping("/{customerId}/add/{accountId}")
@@ -121,6 +123,17 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(update);
 
     }
+    @PutMapping("/update")
+    public ResponseEntity updateCustomerBody(@RequestBody Customer customer){
+
+        Customer update = customerService.updateCustomerByBody(customer);
+        if (update == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("User could not be updated..");
+        }
+        return ResponseEntity.ok(update);
+
+    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteCustomerById(@PathVariable("id") Long id){
@@ -130,7 +143,7 @@ public class CustomerController {
         } catch (EntityNotFoundException exception) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Customer deleted successfully");
+        return ResponseEntity.ok("Customer deleted successfully");
     }
 
 
