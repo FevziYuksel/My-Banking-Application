@@ -1,6 +1,8 @@
 package org.banking.mybankingapplication.controller;
 
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import lombok.RequiredArgsConstructor;
 import org.banking.mybankingapplication.exception.EntityNotFoundException;
 import org.banking.mybankingapplication.model.dto.AccountDTO;
