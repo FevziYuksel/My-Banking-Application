@@ -7,16 +7,19 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import org.banking.mybankingapplication.exception.CustomExceptionHandler;
 import org.banking.mybankingapplication.model.dto.CustomerDTO;
 import org.banking.mybankingapplication.model.entity.Customer;
+import org.banking.mybankingapplication.model.mapper.mapstruct.CustomerMapper;
 import org.banking.mybankingapplication.service.CustomerService;
 import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -54,6 +57,8 @@ class CustomerControllerTest {
 
     @Mock
     private CustomerService customerService;
+
+    private CustomerMapper CUSTOMER_MAPPER = Mappers.getMapper(CustomerMapper.class);
 
     @InjectMocks
     private CustomerController customerController;
@@ -137,13 +142,17 @@ class CustomerControllerTest {
         // init test values
 
         Customer expectedCustomer = getSampleTestCustomers().get(0);
+        expectedCustomer.setId(null);
         ObjectMapper inputJson = new ObjectMapper();
         String inner = inputJson.writeValueAsString(expectedCustomer);
 
         // stub - given
-        Mockito.when(customerService.createNewCustomerFromDTO(Mockito.any(CustomerDTO.class))).thenReturn(expectedCustomer);
+        Mockito.when(customerService.createNewCustomerFromDTO(Mockito.any())).thenReturn(expectedCustomer);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/v1/customer/create").accept(MediaType.APPLICATION_JSON).content(inner).contentType(MediaType.APPLICATION_JSON);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/v1/customer/create")
+                .accept(MediaType.APPLICATION_JSON)
+                .content(inner)
+                .contentType(MediaType.APPLICATION_JSON);
 
         MvcResult result = mvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -182,56 +191,58 @@ class CustomerControllerTest {
 
     }
 
+//    @Test
+//    void updateCustomerName() throws Exception {
+//        //init
+//        Customer expectedCustomer = getSampleTestCustomers().get(0);
+//        CustomerDTO customerDTO = new CustomerDTO();
+//        customerDTO.setName("Evren");
+//        customerDTO.setSurname("Es");
+//        Customer updatedCustomer = new Customer(1L, "Evren", "Es", new Date(), "fevzi@hotmail.com", "+905312513462", "Istanbul", null);
+//
+//        ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
+//        String expectedCustomerStr = objectWriter.writeValueAsString(expectedCustomer);
+//
+//        //stub
+//
+//        when(customerService.updateCustomerName("Fevzi", customerDTO)).thenReturn(updatedCustomer);
+//        //then
+//
+//        MockHttpServletResponse response = mvc.perform(put("/v1/customer/Fevzi").accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).content(expectedCustomerStr)).andDo(print()).andReturn().getResponse();
+//
+//        response.setContentType("application/json;charset=UTF-8");
+//
+//        //validate
+//
+//        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+//
+//        verify(customerService, Mockito.times(1)).updateCustomerName(any(), any());
+//
+//        Customer actualCustomer = new ObjectMapper().readValue(response.getContentAsString(), Customer.class);
+//        assertAll(() -> assertEquals(updatedCustomer.getId(), actualCustomer.getId()), () -> assertEquals(updatedCustomer.getName(), actualCustomer.getName()), () -> assertEquals(updatedCustomer.getSurname(), actualCustomer.getSurname()), () -> assertEquals(updatedCustomer.getEmail(), actualCustomer.getEmail()), () -> assertEquals(updatedCustomer.getAddress(), actualCustomer.getAddress()));
+//
+//    }
+
     @Test
-    void updateCustomerName() throws Exception {
-        //init
-        Customer expectedCustomer = getSampleTestCustomers().get(0);
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setName("Evren");
-        customerDTO.setSurname("Es");
-        Customer updatedCustomer = new Customer(1L, "Evren", "Es", new Date(), "fevzi@hotmail.com", "+905312513462", "Istanbul", null);
+    void updateCustomer() throws Exception {
+        // init
+        CustomerDTO updateCustomerReqDTO = new CustomerDTO("Orhan", "Çakman", "fevzi@hotmail.com", null, null);
+        Customer customer = CUSTOMER_MAPPER.toEntity(updateCustomerReqDTO);
+
+        // stub
+        when(customerService.updateCustomerByBody(any())).thenReturn(customer);
 
         ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String expectedCustomerStr = objectWriter.writeValueAsString(expectedCustomer);
-
-        //stub
-
-        when(customerService.updateCustomerName("Fevzi", customerDTO)).thenReturn(updatedCustomer);
-        //then
-
-        MockHttpServletResponse response = mvc.perform(put("/v1/customer/Fevzi").accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).content(expectedCustomerStr)).andDo(print()).andReturn().getResponse();
-
-        response.setContentType("application/json;charset=UTF-8");
-
-        //validate
-
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-
-        verify(customerService, Mockito.times(1)).updateCustomerName(any(), any());
-
-        Customer actualCustomer = new ObjectMapper().readValue(response.getContentAsString(), Customer.class);
-        assertAll(() -> assertEquals(updatedCustomer.getId(), actualCustomer.getId()), () -> assertEquals(updatedCustomer.getName(), actualCustomer.getName()), () -> assertEquals(updatedCustomer.getSurname(), actualCustomer.getSurname()), () -> assertEquals(updatedCustomer.getEmail(), actualCustomer.getEmail()), () -> assertEquals(updatedCustomer.getAddress(), actualCustomer.getAddress()));
-
-    }
-
-    @Test
-//Doesn't work
-    void updateCustomerNameById() throws Exception {
-        //init
-        Customer expectedCustomer = getSampleTestCustomers().get(0);
-        Customer requestCustomer = new Customer(1L, "Orhan", "Çakman", new Date(), "fevzi@hotmail.com", "+905312513462", "Istanbul", null);
-        Customer updatedCustomer = new Customer(1L, "Orhan", "Çakman", new Date(), "fevzi@hotmail.com", "+905312513462", "Istanbul", null);
-
-        //stub
-
-        when(customerService.updateCustomerByBody(requestCustomer)).thenReturn(updatedCustomer);
-
-        ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String requestCustomerStr = objectWriter.writeValueAsString(requestCustomer);
+        String requestCustomerStr = objectWriter.writeValueAsString(updateCustomerReqDTO);
 
 
         //then
-        MockHttpServletResponse response = mvc.perform(put("/v1/customer/update").accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).content(requestCustomerStr)).andDo(print()).andReturn().getResponse();
+        MockHttpServletResponse response = mvc.perform(put("/v1/customer/update")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestCustomerStr))
+                .andDo(print())
+                .andReturn().getResponse();
 
         response.setContentType("application/json;charset=UTF-8");
 
@@ -241,7 +252,6 @@ class CustomerControllerTest {
 
         //validate
         assertEquals(response.getStatus(), HttpStatus.OK.value());
-
 
     }
 
