@@ -58,7 +58,6 @@ class CustomerControllerTest {
     @Mock
     private CustomerService customerService;
 
-    @Autowired
     private CustomerMapper CUSTOMER_MAPPER = Mappers.getMapper(CustomerMapper.class);
 
     @InjectMocks

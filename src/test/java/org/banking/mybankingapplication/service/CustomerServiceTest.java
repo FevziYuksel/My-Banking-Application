@@ -40,9 +40,6 @@ class CustomerServiceTest {
     @Mock
     CustomerRepository customerRepository;
 
-    @Mock
-    CustomerMapper customerMapper;
-
     @InjectMocks
     CustomerService customerService;
 
