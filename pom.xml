@@ -90,20 +90,6 @@
             <version>2.9.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.9.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-params</artifactId>
-            <version>5.9.0</version>
-            <scope>test</scope>
-        </dependency>
-
         <!--Swagger-->
         <dependency>
             <groupId>io.springfox</groupId>
