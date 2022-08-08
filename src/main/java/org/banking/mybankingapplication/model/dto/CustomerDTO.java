@@ -1,13 +1,14 @@
 package org.banking.mybankingapplication.model.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-@Getter
-@Setter
-@ToString
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CustomerDTO implements Serializable {
 
     private String name;
